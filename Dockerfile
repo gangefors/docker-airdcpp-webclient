@@ -1,16 +1,20 @@
 FROM ubuntu:16.04
 MAINTAINER Stefan Gangefors <stefan@gangefors.com>
 
-# Install build and runtime dependencies
-RUN apt-get update && apt-get install -y \
+RUN buildDeps=' \
         cmake \
         g++ \
         gcc \
         git \
+        libboost1.5*-dev \
+        npm \
+        pkg-config \
+        python \
+    ' && \
+    runtimeDeps=' \
         libboost-regex1.5* \
         libboost-system1.5* \
         libboost-thread1.5* \
-        libboost1.5*-dev \
         libbz2-dev \
         libgeoip-dev \
         libleveldb-dev \
@@ -20,10 +24,10 @@ RUN apt-get update && apt-get install -y \
         libstdc++6 \
         libtbb-dev \
         libwebsocketpp-dev \
-        npm \
-        pkg-config \
-        python \
         zlib1g-dev \
+    ' && \
+# Install build and runtime dependencies
+    apt-get update && apt-get install -y $buildDeps $runtimeDeps \
 # Build and install airdcpp-webclient
     && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
@@ -32,15 +36,7 @@ RUN apt-get update && apt-get install -y \
     && make install \
     && rm -rf /tmp/aw \
 # Remove build dependencies
-    && apt-get purge --auto-remove -y \
-        cmake \
-        g++ \
-        gcc \
-        git \
-        libboost1.5*-dev \
-        npm \
-        pkg-config \
-        python \
+    && apt-get purge --auto-remove -y $buildDeps \
     && rm -rf /var/lib/apt/lists/*
 
 # Install default webserver settings
