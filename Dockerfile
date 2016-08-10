@@ -35,6 +35,7 @@ RUN buildDeps=' \
     && make -j4 \
     && make install \
     && rm -rf /tmp/aw \
+    && rm -rf /root/.npm \
 # Remove build dependencies
     && apt-get purge --auto-remove -y $buildDeps \
     && rm -rf /var/lib/apt/lists/*
