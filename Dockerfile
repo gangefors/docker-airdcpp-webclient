@@ -7,24 +7,33 @@ RUN buildDeps=' \
         gcc \
         git \
         libboost1.5*-dev \
-        npm \
-        pkg-config \
-        python \
-    ' && \
-    runtimeDeps=' \
-        libboost-regex1.5* \
-        libboost-system1.5* \
-        libboost-thread1.5* \
         libbz2-dev \
         libgeoip-dev \
         libleveldb-dev \
         libminiupnpc-dev \
         libnatpmp-dev \
         libssl-dev \
-        libstdc++6 \
         libtbb-dev \
         libwebsocketpp-dev \
+        npm \
+        pkg-config \
+        python \
         zlib1g-dev \
+    ' && \
+    runtimeDeps=' \
+        libboost-regex1.5* \
+        libboost-system1.5* \
+        libboost-thread1.5* \
+        libbz2-1.0 \
+        libgeoip1 \
+        libleveldb1v5 \
+        libminiupnpc10 \
+        libnatpmp1 \
+        libssl1.0.0 \
+        libstdc++6 \
+        libtbb2 \
+        libwebsockets7 \
+        zlib1g \
     ' && \
 # Install build and runtime dependencies
     apt-get update && apt-get install -y $buildDeps $runtimeDeps \
