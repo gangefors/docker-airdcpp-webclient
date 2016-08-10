@@ -40,7 +40,7 @@ RUN buildDeps=' \
 # Build and install airdcpp-webclient
     && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
-    && cmake . \
+    && cmake -DCMAKE_BUILD_TYPE=Release . \
     && make -j4 \
     && make install \
     && rm -rf /tmp/aw \
