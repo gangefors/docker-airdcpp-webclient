@@ -37,6 +37,19 @@ HTTP port
 HTTPS port
 
 
+Upgrade
+-------
+1. Pull the latest image.
+2. Stop and remove the container.
+3. Start a new container the same way you started the old one.
+
+Example:
+```
+docker pull gangefors/docker-airdcpp-webclient
+docker rm -f airdcpp-webclient
+docker run -d --name airdcpp-webclient -p 80:5600 - 443:5601 -v ~/.airdc++:/root/.airdc++ -v ~/Downloads:/root/Downloads -v ~/Shared:/shared gangefors/docker-airdcpp-webclient
+```
+
 Enable HTTPS
 ------------
 
