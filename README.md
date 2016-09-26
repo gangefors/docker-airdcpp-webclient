@@ -37,6 +37,7 @@ HTTP port
 - `5601`
 HTTPS port
 
+And you probably want to add ports for TCP/UDP/TLS to configure your client for Active mode.
 
 Upgrade
 -------
