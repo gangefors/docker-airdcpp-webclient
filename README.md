@@ -4,8 +4,9 @@ AirDC++ Web Client Docker image
 Username / password for the default admin account is `admin` / `password`
 
 Example command to run the application.
-
-`docker run -d --name airdcpp-webclient -p 80:5600 - 443:5601 -v ~/.airdc++:/root/.airdc++ -v ~/Downloads:/root/Downloads -v ~/Shared:/shared gangefors/docker-airdcpp-webclient`
+```
+docker run -d --name airdcpp-webclient -p 80:5600 - 443:5601 -v ~/.airdc++:/root/.airdc++ -v ~/Downloads:/root/Downloads -v ~/Shared:/shared gangefors/docker-airdcpp-webclient
+```
 
 
 Volumes
