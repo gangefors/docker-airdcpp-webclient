@@ -1,6 +1,8 @@
 FROM ubuntu:16.04
 MAINTAINER Stefan Gangefors <stefan@gangefors.com>
 
+ENV VERSION=1.3.0
+
 RUN buildDeps=' \
         cmake \
         g++ \
@@ -40,6 +42,7 @@ RUN buildDeps=' \
 # Build and install airdcpp-webclient
     && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
+    && git checkout $VERSION \
     && cmake -DCMAKE_BUILD_TYPE=Release . \
     && make -j4 \
     && make install \
