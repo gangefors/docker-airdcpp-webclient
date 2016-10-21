@@ -36,9 +36,11 @@ RUN buildDeps=' \
         libtbb2 \
         libwebsockets7 \
         zlib1g \
-    ' && \
+    ' \
 # Install build and runtime dependencies
-    apt-get update && apt-get install -y $buildDeps $runtimeDeps \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
 # Build and install airdcpp-webclient
     && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
