@@ -39,6 +39,8 @@ HTTPS port
 
 And you probably want to add ports for TCP/UDP/TLS to configure your client for Active mode.
 
+`-p 55031:55031 -p 55032:55032/udp -p 55033:55033` 
+
 Upgrade
 -------
 1. Pull the latest image.
