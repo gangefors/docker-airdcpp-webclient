@@ -15,7 +15,8 @@ even be preferable since then you get to decide who owns the downloaded files.
 docker run -d --name airdcpp -p 80:5600 -v ~/.airdc++:/.airdc++ -v ~/Downloads:/Downloads -v ~/Shared:/Shared -u $(id -u):$(id -g) gangefors/docker-airdcpp-webclient airdcppd -c /.airdc++
 ```
 
-*NOTE: If you have previously run a container the files in ~/.airdc++ might be owned by root so you first have to `chown` them to yourself.*
+*NOTE: If you have previously run a container the files in ~/.airdc++ might be owned
+by root so you first have to `chown` them to yourself.*
 
 Volumes
 -------
@@ -23,8 +24,9 @@ Volumes
 - `/root/.airdc++`
 This volume have all application settings.
 
-NOTE: If you host mount this folder you will not have a WebServer.xml file in
-your settings folder so you need to generate one or copy the one from this repo.
+*NOTE: If you host mount this folder with a previous AirDC++ install you might not
+have a WebServer.xml file in your settings folder so you need to generate one or
+copy the one from this repo.*
 
 You can generate one by running the following command.
 
