@@ -28,7 +28,7 @@ This volume have all application settings.
 have a WebServer.xml file in your settings folder so you need to generate one or
 copy the one from this repo.*
 
-You can generate one by running the following command.
+You can generate a WebServer.xml file by running the following command.
 
 `docker run --rm -it -v ~/.airdc++:/root/.airdc++ gangefors/docker-airdcpp-webclient --configure`
 
