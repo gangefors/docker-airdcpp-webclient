@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER Stefan Gangefors <stefan@gangefors.com>
 
-ENV VERSION=1.3.1
+ENV VERSION=1.4.0
 
 RUN buildDeps=' \
         cmake \
