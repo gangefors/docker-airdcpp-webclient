@@ -5,14 +5,14 @@ Username / password for the default admin account is `admin` / `password`
 
 Example command to run the application.
 ```
-docker run -d --name airdcpp -p 80:5600 -v ~/.airdc++:/root/.airdc++ -v ~/Downloads:/root/Downloads -v ~/Shared:/Shared gangefors/docker-airdcpp-webclient
+docker run -d --name airdcpp -p 80:5600 -v ~/.airdc++:/root/.airdc++ -v ~/Downloads:/root/Downloads -v ~/Shared:/Shared gangefors/airdcpp-webclient
 ```
 
 If you'd like to run in a non-privileged container you can do that as well. It might 
 even be preferable since then you get to decide who owns the downloaded files.
 
 ```
-docker run -d --name airdcpp -p 80:5600 -v ~/.airdc++:/.airdc++ -v ~/Downloads:/Downloads -v ~/Shared:/Shared -u $(id -u):$(id -g) gangefors/docker-airdcpp-webclient airdcppd -c /.airdc++
+docker run -d --name airdcpp -p 80:5600 -v ~/.airdc++:/.airdc++ -v ~/Downloads:/Downloads -v ~/Shared:/Shared -u $(id -u):$(id -g) gangefors/airdcpp-webclient airdcppd -c /.airdc++
 ```
 
 *NOTE: If you have previously run a container the files in ~/.airdc++ might be owned
@@ -30,7 +30,7 @@ copy the one from this repo.*
 
 You can generate a WebServer.xml file by running the following command.
 
-`docker run --rm -it -v ~/.airdc++:/root/.airdc++ gangefors/docker-airdcpp-webclient --configure`
+`docker run --rm -it -v ~/.airdc++:/root/.airdc++ gangefors/airdcpp-webclient --configure`
 
 You also want to mount the Download folder and any folders that you want to share.
 
