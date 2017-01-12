@@ -4,9 +4,9 @@ AirDC++ Web Client Docker image
 Run the application
 -------------------
 
-	docker volume create --name airdcpp
-	docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
-	    gangefors/airdcpp-webclient
+    docker volume create --name airdcpp
+    docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
+        gangefors/airdcpp-webclient
 
 The web UI will be available on [http://localhost]
 
