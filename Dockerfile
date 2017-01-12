@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-MAINTAINER Stefan Gangefors <stefan@gangefors.com>
 
 ENV VERSION=1.4.1
 
@@ -54,8 +53,10 @@ RUN buildDeps=' \
     && apt-get purge --auto-remove -y $buildDeps \
     && rm -rf /var/lib/apt/lists/*
 
-# Install default webserver settings
-COPY WebServer.xml /root/.airdc++/WebServer.xml
+# Setup application
+COPY dcppboot.xml /usr/local/etc/airdcpp/dcppboot.xml
+COPY .airdcpp/ /.airdcpp/
+RUN mkdir /Downloads /Share
 
 # Install and set locale
 RUN locale-gen en_US.UTF-8
@@ -63,8 +64,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-VOLUME /root/.airdc++
-
+VOLUME /.airdcpp
 EXPOSE 5600 5601
-
-CMD airdcppd
+ENTRYPOINT ["airdcppd"]
