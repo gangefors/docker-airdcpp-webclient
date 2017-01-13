@@ -1,0 +1,19 @@
+---
+version: '2'
+services:
+  airdcpp:
+    image: gangefors/airdcpp-webclient
+    volumes:
+      - airdcpp:/.airdcpp
+    user: $UID:$GID
+    hostname: airdcpp
+    ports:
+      - 80:5600
+      - 443:5601
+      - 21248:21248
+      - 21248:21248/udp
+      - 21249:21249
+
+volumes:
+  airdcpp:
+    driver: local

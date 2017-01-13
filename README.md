@@ -44,8 +44,34 @@ be owned by root. Fix that by `chown`ing the files to the user you run as.
         chown -R $(id -u):$(id -g) /.airdcpp
 
 
-Add admin users
----------------
+docker-compose
+--------------
+
+There is a docker-compose file available to set up the application as a service
+on a docker host. Just run the following.
+
+    docker-compose up -d
+
+This will start a service as a non-privileged user using your UID as the one
+that runs the application.
+
+If you get warnings about UID or GID not being set then add them as environment
+variables to the command.
+
+    UID=$(id -u) GID=$(id -g) docker-compose up -d
+
+The warnings look like this.
+
+    WARNING: The UID variable is not set. Defaulting to a blank string.
+    WARNING: The GID variable is not set. Defaulting to a blank string.
+
+If these env vars are not set the service will run as root. Only UID is needed
+for the application to run properly as a non-privileged user. If only UID is
+set all files will be owned by that id but belong to the root group. 
+
+
+Add/modify admin users
+----------------------
 
 To add/modify *adminitrative* users to the web interface, run the following.
 
