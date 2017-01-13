@@ -135,7 +135,7 @@ Upgrade
 Example:
 
     docker pull gangefors/docker-airdcpp-webclient
-    docker rm -f airdcpp-webclient
+    docker rm -f airdcpp
     docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
         gangefors/docker-airdcpp-webclient
 
