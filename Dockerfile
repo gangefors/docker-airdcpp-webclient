@@ -34,6 +34,7 @@ RUN buildDeps=' \
         libstdc++6 \
         libtbb2 \
         libwebsockets7 \
+        openssl \
         zlib1g \
     ' \
 # Install build and runtime dependencies

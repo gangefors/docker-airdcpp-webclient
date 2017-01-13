@@ -67,7 +67,7 @@ The warnings look like this.
 
 If these env vars are not set the service will run as root. Only UID is needed
 for the application to run properly as a non-privileged user. If only UID is
-set all files will be owned by that id but belong to the root group. 
+set all files will be owned by that id but belong to the root group.
 
 
 Add/modify admin users
@@ -143,8 +143,20 @@ Example:
 Enable HTTPS
 ------------
 
-*TODO*
+The image comes with self-signed certificates so you should be able to use
+HTTPS out of the box. But if you want to generate your own certificates here's
+how you do it.
+
+    docker exec -it airdcpp openssl req -subj "/C=/ST=/L=/O=/CN=localhost" \
+        -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /.airdcpp/Certificates/client.key \
+        -out /.airdcpp/Certificates/client.crt
+
+Change the CN string to whatever the domain name or IP you are running your
+service on. You can also add more information in the -subj string if you want.
+Check [this site](certs) for more information on the different fields.
 
 
 [http://localhost]: http://localhost
 [.airdcpp]: .airdcpp
+[certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
