@@ -56,6 +56,7 @@ RUN buildDeps=' \
 # Setup application
 COPY dcppboot.xml /usr/local/etc/airdcpp/dcppboot.xml
 COPY .airdcpp/ /.airdcpp/
+RUN chmod -R ugo+w /.airdcpp
 RUN mkdir /Downloads /Share
 
 # Install and set locale
