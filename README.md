@@ -52,37 +52,33 @@ on a docker host. Just run the following.
 
     docker-compose up -d
 
-This will start a service as a non-privileged user using your UID as the one
-that runs the application.
+### Environment
 
-If you get warnings about UID or GID not being set then add them as environment
-variables to the command.
+- UID
+  Container is started with this user id. Defaults to 0 (root).
+  Usually you want this to be $(id -u).
 
-    UID=$(id -u) GID=$(id -g) docker-compose up -d
+- GID
+  Container is started with this group id. Defaults to 0 (root).
+  Usually you want this to be $(id -g).
 
-The warnings look like this.
+- HTTP_PORT
+  Published HTTP port. Defaults to 5600.
 
-    WARNING: The UID variable is not set. Defaulting to a blank string.
-    WARNING: The GID variable is not set. Defaulting to a blank string.
+- HTTPS_PORT
+  Published HTTPS port. Defaults to 5601.
 
-If these env vars are not set the service will run as root. Only UID is needed
-for the application to run properly as a non-privileged user. If only UID is
-set all files will be owned by that id but belong to the root group.
+- TCP_PORT
+  Published TCP port for incoming connections. Defaults to 21248. If this is
+  change you have to change it in the application settings as well.
 
+- UDP_PORT
+  Published TCP port for incoming connections. Defaults to 21248. If this is
+  change you have to change it in the application settings as well.
 
-Add/modify admin users
-----------------------
-
-To add/modify *adminitrative* users to the web interface, run the following.
-
-    docker run --rm -it -v airdcpp:/.airdcpp \
-        gangefors/airdcpp-webclient --add-user
-
-If the container was running you need to restart it for the changes to take
-effect.
-
-    docker restart airdcpp    
-
+- TLS_PORT
+  Published TLS port for incoming connections. Defaults to 21249. If this is
+  change you have to change it in the application settings as well.
 
 Volumes
 -------
@@ -113,17 +109,26 @@ Ports
 
 - `5601` HTTPS port
 
-You are able to change the web UI ports by running the following command.
-
-    docker run --rm -it -v airdcpp:/.airdcpp \
-        gangefors/airdcpp-webclient --configure
-        
 - `21248` TCP and UDP port for incoming connections
 
 - `21249` TCP port for incoming encrypted connections
 
 You are able to change the incoming connection ports under
 Settings>Connectivity>Advanced>Ports in the web UI.
+
+
+Add/modify admin users
+----------------------
+
+To add/modify *adminitrative* users to the web interface, run the following.
+
+    docker run --rm -it -v airdcpp:/.airdcpp \
+        gangefors/airdcpp-webclient --add-user
+
+If the container was running you need to restart it for the changes to take
+effect.
+
+    docker restart airdcpp
 
 
 Upgrade
