@@ -54,29 +54,36 @@ on a docker host. Just run the following.
 
 ### Environment
 
-- UID
+- `UID`
+
   Container is started with this user id. Defaults to 0 (root).
   Usually you want this to be $(id -u).
 
-- GID
+- `GID`
+
   Container is started with this group id. Defaults to 0 (root).
   Usually you want this to be $(id -g).
 
-- HTTP_PORT
+- `HTTP_PORT`
+
   Published HTTP port. Defaults to 5600.
 
-- HTTPS_PORT
+- `HTTPS_PORT`
+
   Published HTTPS port. Defaults to 5601.
 
-- TCP_PORT
+- `TCP_PORT`
+
   Published TCP port for incoming connections. Defaults to 21248. If this is
   change you have to change it in the application settings as well.
 
-- UDP_PORT
+- `UDP_PORT`
+
   Published TCP port for incoming connections. Defaults to 21248. If this is
   change you have to change it in the application settings as well.
 
-- TLS_PORT
+- `TLS_PORT`
+
   Published TLS port for incoming connections. Defaults to 21249. If this is
   change you have to change it in the application settings as well.
 
