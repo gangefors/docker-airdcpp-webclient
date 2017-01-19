@@ -12,12 +12,12 @@ The web UI will be available on [http://localhost]
 
 Username / password for the default admin account is: `admin` / `password`
 
-*Explanation*
+_Explanation_
 
     docker volume create --name airdcpp
 
 This command creates a named volume that will store the application settings.
-*Run this only once.*
+_Run this only once._
 
     docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \ 
         gangefors/airdcpp-webclient
@@ -36,7 +36,7 @@ downloaded files.
     docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
         -u $(id -u):$(id -g) gangefors/airdcpp-webclient
 
-*NOTE*
+_NOTE_
 If you already have run the container as root, the files in the volume might
 be owned by root. Fix that by `chown`ing the files to the user you run as.
 
@@ -127,7 +127,7 @@ Settings>Connectivity>Advanced>Ports in the web UI.
 Add/modify admin users
 ----------------------
 
-To add/modify *adminitrative* users to the web interface, run the following.
+To add/modify _adminitrative_ users to the web interface, run the following.
 
     docker run --rm -it -v airdcpp:/.airdcpp \
         gangefors/airdcpp-webclient --add-user
@@ -140,6 +140,7 @@ effect.
 
 Upgrade
 -------
+
 1. Pull the latest image.
 2. Stop and remove the container.
 3. Start a new container the same way you started the old one.
@@ -157,7 +158,7 @@ Enable HTTPS
 
 The image comes with self-signed certificates so you should be able to use
 HTTPS out of the box. But if you want to generate your own certificates here's
-how you do it.
+how you do it. _The container must be running._
 
     docker exec -it airdcpp openssl req -subj "/C=/ST=/L=/O=/CN=localhost" \
         -x509 -nodes -days 365 -newkey rsa:2048 \
