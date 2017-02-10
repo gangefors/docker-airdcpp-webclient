@@ -17,7 +17,7 @@ _Explanation_
     docker volume create --name airdcpp
 
 This command creates a named volume that will store the application settings.
-_Run this only once._
+_Run the `volume create` command only once._
 
     docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \ 
         gangefors/airdcpp-webclient
@@ -129,11 +129,15 @@ Add/modify admin users
 
 To add/modify _adminitrative_ users to the web interface, run the following.
 
-    docker run --rm -it -v airdcpp:/.airdcpp \
+    docker run --rm -it --volumes-from airdcpp \
         gangefors/airdcpp-webclient --add-user
 
-If the container was running you need to restart it for the changes to take
-effect.
+_NOTE_ You must have started the webclient at some point before running this
+command. If you used a different container name than `airdcpp` change
+`--volumes-from airdcpp` accordingly.
+
+If the container was running, while adding the user, you need to restart it
+for the changes to take effect.
 
     docker restart airdcpp
 
