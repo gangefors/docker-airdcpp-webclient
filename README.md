@@ -47,8 +47,8 @@ be owned by root. Fix that by `chown`ing the files to the user you run as.
 docker-compose
 --------------
 
-There is a docker-compose file available to set up the application as a service
-on a docker host. Just run the following.
+There is a docker-compose file available to set up the application as a
+service on a docker host. Just run the following.
 
     docker-compose up -d
 
@@ -129,17 +129,13 @@ Add/modify admin users
 
 To add/modify _adminitrative_ users to the web interface, run the following.
 
-    docker run --rm -it --volumes-from airdcpp \
-        gangefors/airdcpp-webclient --add-user
+    docker stop airdcpp
+    docker run --rm -it --volumes-from airdcpp gangefors/airdcpp-webclient --add-user
+    docker start airdcpp
 
-_NOTE_ You must have started the webclient at some point before running this
-command. If you used a different container name than `airdcpp` change
-`--volumes-from airdcpp` accordingly.
-
-If the container was running, while adding the user, you need to restart it
-for the changes to take effect.
-
-    docker restart airdcpp
+_NOTE_ You must stop the webclient application container before running this
+command. If you add a user while it's running, the configuration will be
+overwritten when the application shuts down.
 
 
 Upgrade
