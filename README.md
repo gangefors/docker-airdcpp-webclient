@@ -75,17 +75,17 @@ service on a docker host. Just run the following.
 - `TCP_PORT`
 
   Published TCP port for incoming connections. Defaults to 21248. If this is
-  change you have to change it in the application settings as well.
+  changed you have to change it in the application settings as well.
 
 - `UDP_PORT`
 
   Published TCP port for incoming connections. Defaults to 21248. If this is
-  change you have to change it in the application settings as well.
+  changed you have to change it in the application settings as well.
 
 - `TLS_PORT`
 
   Published TLS port for incoming connections. Defaults to 21249. If this is
-  change you have to change it in the application settings as well.
+  changed you have to change it in the application settings as well.
 
 Volumes
 -------
@@ -116,12 +116,19 @@ Ports
 
 - `5601` HTTPS port
 
-- `21248` TCP and UDP port for incoming connections
+- `21248` TCP and UDP port for incoming connections. You have to publish this
+  on the same port number otherwise clients will not be able to connect.
 
-- `21249` TCP port for incoming encrypted connections
+- `21249` TCP port for incoming encrypted connections. You have to publish this
+  on the same port number otherwise clients will not be able to connect.
 
-You are able to change the incoming connection ports under
-Settings>Connectivity>Advanced>Ports in the web UI.
+If you want to use other ports for incoming connections you are can change
+them under Settings>Connectivity>Advanced>Ports in the web UI.
+
+The incoming connection ports are used to be able to be in *active mode*. This
+allows you to connect to all peers in a hub, including the ones in *passive mode*.
+
+Read more about connectivity modes in the [official FAQ](conn_faq).
 
 
 Add/modify admin users
@@ -173,3 +180,4 @@ Check [this site](certs) for more information on the different fields.
 [http://localhost]: http://localhost
 [.airdcpp]: .airdcpp
 [certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
+[conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
