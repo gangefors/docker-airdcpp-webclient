@@ -128,7 +128,7 @@ them under Settings>Connectivity>Advanced>Ports in the web UI.
 The incoming connection ports are used to be able to be in *active mode*. This
 allows you to connect to all peers in a hub, including the ones in *passive mode*.
 
-Read more about connectivity modes in the [official FAQ](conn_faq).
+Read more about connectivity modes in the [official FAQ][conn_faq].
 
 
 Add/modify admin users
@@ -174,10 +174,10 @@ how you do it. _The container must be running._
 
 Change the CN string to whatever the domain name or IP you are running your
 service on. You can also add more information in the -subj string if you want.
-Check [this site](certs) for more information on the different fields.
+Check [this site][certs] for more information on the different fields.
 
 
 [http://localhost]: http://localhost
 [.airdcpp]: .airdcpp
-[certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
+[certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
