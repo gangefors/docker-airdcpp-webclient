@@ -1,7 +1,7 @@
 AirDC++ Web Client Docker image
 ===============================
 
-You must have proper knowledge of [Docker] to use this image properly.
+You must have proper knowledge of [Docker] to use this image.
 
 Run the application
 -------------------
