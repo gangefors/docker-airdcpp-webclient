@@ -154,7 +154,7 @@ Upgrade
 
 1. Pull the latest image.
 2. Stop and remove the container.
-3. Start a new container the same way you started the old one.
+3. Start a new container with the same command you started the old one.
 
 Example:
 
