@@ -12,7 +12,7 @@ Run the application
 
 The web UI will be available on [http://localhost].
 If you want to run the application on any other port than 80, just update
-the `-p` option in the command.
+the `-p` option in the command, e.g `-p 5600:5600` to bind to port 5600.
 
 Username / password for the default admin account is: `admin` / `password`
 
@@ -27,7 +27,8 @@ _Run the `volume create` command only once._
         gangefors/airdcpp-webclient
 
 This command starts a container using the default settings built into the
-image.
+image, binding the application to port 80 (default http port) so it's easily
+available on [http://localhost].
 
 
 Run as non-privileged user
@@ -57,6 +58,9 @@ service on a docker host. Just run the following.
     docker-compose up -d
 
 ### Environment
+
+You can configure some aspects of the application when using docker-compose
+by setting these environment variables before running `docker-compose up -d`.
 
 - `UID`
 
