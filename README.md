@@ -1,6 +1,8 @@
 AirDC++ Web Client Docker image
 ===============================
 
+You must have proper knowledge of [Docker] to use this image properly.
+
 Run the application
 -------------------
 
@@ -179,6 +181,7 @@ service on. You can also add more information in the -subj string if you want.
 Check [this site][certs] for more information on the different fields.
 
 
+[docker]: https://docs.docker.com/learn/
 [http://localhost]: http://localhost
 [.airdcpp]: .airdcpp
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
