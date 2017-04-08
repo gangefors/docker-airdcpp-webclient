@@ -117,8 +117,8 @@ Volumes
   This is the default share folder.
 
 
-Ports
------
+Exposed Ports
+-------------
 
 - `5600` HTTP port
 
