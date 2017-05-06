@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV VERSION=1.4.1
+ENV VERSION=2.0.0
 
 RUN buildDeps=' \
         cmake \
@@ -34,6 +34,7 @@ RUN buildDeps=' \
         libstdc++6 \
         libtbb2 \
         libwebsockets7 \
+        locales \
         openssl \
         zlib1g \
     ' \
