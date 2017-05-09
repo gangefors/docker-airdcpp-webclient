@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV VERSION=2.0.0
+ENV VERSION=2.0.1
 
 RUN buildDeps=' \
         cmake \
