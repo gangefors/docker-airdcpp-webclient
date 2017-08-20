@@ -4,6 +4,7 @@ ARG VERSION=2.1.0
 
 RUN buildDeps=' \
         cmake \
+        curl \
         g++ \
         gcc \
         git \
@@ -42,6 +43,9 @@ RUN buildDeps=' \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
+# Install node.js to enable airdcpp extensions
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt-get install -y nodejs \
 # Build and install airdcpp-webclient
     && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
