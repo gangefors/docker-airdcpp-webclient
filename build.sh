@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -ex
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
     docker build --no-cache --pull -t gangefors/airdcpp-webclient:latest .
     DOCKER_HOST=tcp://192.168.0.51:2376 docker build \
             --no-cache --pull -t gangefors/arm32v7-airdcpp-webclient:latest \
