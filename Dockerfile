@@ -1,6 +1,8 @@
-FROM ubuntu:16.04
+ARG arch=""
+FROM ${arch}ubuntu:16.04
 
-ARG VERSION=2.2.0
+ARG version=2.2.0
+ARG threads=4
 
 RUN buildDeps=' \
         cmake \
@@ -45,14 +47,15 @@ RUN buildDeps=' \
     && apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
 # Install node.js to enable airdcpp extensions
     && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
-    && apt-get install -y nodejs \
+    && apt-get install -y --no-install-recommends nodejs \
 # Build and install airdcpp-webclient
-    && git clone https://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
+    && git clone git://github.com/airdcpp-web/airdcpp-webclient.git /tmp/aw \
     && cd /tmp/aw \
-    && git checkout $VERSION \
+    && git checkout ${version} \
     && cmake -DCMAKE_BUILD_TYPE=Release . \
-    && make -j4 \
+    && make -j${threads} \
     && make install \
+    && cd - \
     && rm -rf /tmp/aw \
     && rm -rf /root/.npm \
 # Remove build dependencies
