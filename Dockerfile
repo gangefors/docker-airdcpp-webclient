@@ -1,7 +1,7 @@
 ARG arch=""
 FROM ${arch}ubuntu:16.04
 
-ARG version=2.2.0
+ARG version=2.2.1
 ARG threads=4
 
 RUN buildDeps=' \
