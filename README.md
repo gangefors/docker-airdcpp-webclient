@@ -3,16 +3,23 @@ AirDC++ Web Client Docker image
 
 You must have proper knowledge of [Docker] to use this image.
 
+
 Run the application
 -------------------
 
     docker volume create --name airdcpp
-    docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
+    docker run -d --name airdcpp \
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -v airdcpp:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
 The web UI will be available on [http://localhost].
+
 If you want to run the application on any other port than 80, just update
 the `-p` option in the command, e.g `-p 5600:5600` to bind to port 5600.
+See [Exposed Ports] below for details.
 
 Username / password for the default admin account is: `admin` / `password`
 
@@ -23,12 +30,18 @@ _Explanation_
 This command creates a named volume that will store the application settings.
 _Run the `volume create` command only once._
 
-    docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \ 
+    docker run -d --name airdcpp \
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -v airdcpp:/.airdcpp \ 
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
 This command starts a container using the default settings built into the
-image, binding the application to port 80 (default http port) so it's easily
-available on [http://localhost].
+image, binding the application to port 80/443 (default http/https port) so
+it's readily available on [http://localhost] and [https://localhost]
+It will also mount Downloads and Share from you home directory, change these
+according to your personal setup.
 
 
 Run as non-privileged user
@@ -38,14 +51,21 @@ If you'd like to run in a non-privileged container you can do that as well.
 It might even be preferable since then you get to decide who owns the
 downloaded files.
 
-    docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
-        -u $(id -u):$(id -g) gangefors/airdcpp-webclient
+    docker run -d --name airdcpp \
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -v airdcpp:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
+        -u $(id -u):$(id -g) \
+        gangefors/airdcpp-webclient
 
 _NOTE_
 If you already have run the container as root, the files in the volume might
 be owned by root. Fix that by `chown`ing the files to the user you run as.
 
-    docker run --rm -v airdcpp:/.airdcpp ubuntu:16.04 \
+    docker run --rm \
+        -v airdcpp:/.airdcpp \
+        ubuntu:16.04 \
         chown -R $(id -u):$(id -g) /.airdcpp
 
 
@@ -94,6 +114,7 @@ by setting these environment variables before running `docker-compose up -d`.
 
   Published TLS port for incoming connections. Defaults to 21249. If this is
   changed you have to change it in the application settings as well.
+
 
 Volumes
 -------
@@ -145,7 +166,8 @@ Add/modify admin users
 To add/modify _adminitrative_ users to the web interface, run the following.
 
     docker stop airdcpp
-    docker run --rm -it --volumes-from airdcpp gangefors/airdcpp-webclient --add-user
+    docker run --rm -it --volumes-from airdcpp \
+        gangefors/airdcpp-webclient --add-user
     docker start airdcpp
 
 _NOTE_ You must stop the webclient application container before running this
@@ -164,7 +186,11 @@ Example:
 
     docker pull gangefors/docker-airdcpp-webclient
     docker rm -f airdcpp
-    docker run -d --name airdcpp -p 80:5600 -v airdcpp:/.airdcpp \
+    docker run -d --name airdcpp \
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -v airdcpp:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
         gangefors/docker-airdcpp-webclient
 
 
@@ -186,7 +212,9 @@ Check [this site][certs] for more information on the different fields.
 
 
 [docker]: https://docs.docker.com/learn/
+[Exposed Ports]: #exposed-ports
 [http://localhost]: http://localhost
+[https://localhost]: https://localhost
 [.airdcpp]: .airdcpp
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
