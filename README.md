@@ -9,7 +9,7 @@ Run the application
 
     docker volume create --name airdcpp
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -31,7 +31,7 @@ This command creates a named volume that will store the application settings.
 _Run the `volume create` command only once._
 
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -v airdcpp:/.airdcpp \ 
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -52,7 +52,7 @@ It might even be preferable since then you get to decide who owns the
 downloaded files.
 
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -188,7 +188,7 @@ Example:
     docker pull gangefors/docker-airdcpp-webclient
     docker rm -f airdcpp
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21249:21249/udp\
+        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
