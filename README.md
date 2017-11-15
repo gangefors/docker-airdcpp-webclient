@@ -23,7 +23,7 @@ See [Exposed Ports] below for details.
 
 Username / password for the default admin account is: `admin` / `password`
 
-_Explanation_
+##### Explanation
 
     docker volume create --name airdcpp
 
@@ -59,7 +59,7 @@ downloaded files.
         -u $(id -u):$(id -g) \
         gangefors/airdcpp-webclient
 
-_NOTE_
+> NOTE
 If you already have run the container as root, the files in the volume might
 be owned by root. Fix that by `chown`ing the files to the user you run as.
 
@@ -170,7 +170,8 @@ To add/modify _adminitrative_ users to the web interface, run the following.
         gangefors/airdcpp-webclient --add-user
     docker start airdcpp
 
-_NOTE_ You must stop the webclient application container before running this
+> NOTE
+You must stop the webclient application container before running this
 command. If you add a user while it's running, the configuration will be
 overwritten when the application shuts down.
 
@@ -199,7 +200,9 @@ Enable HTTPS
 
 The image comes with self-signed certificates so you should be able to use
 HTTPS out of the box. But if you want to generate your own certificates here's
-how you do it. _The container must be running._
+how you do it.
+
+> NOTE The container must be running.
 
     docker exec -it airdcpp openssl req -subj "/C=/ST=/L=/O=/CN=localhost" \
         -x509 -nodes -days 365 -newkey rsa:2048 \
