@@ -9,5 +9,6 @@
     http://www.cplusplus.com/reference/ctime/strftime/
 
     -->
+    <LocalMode>1</LocalMode>
     <ConfigPath>/.airdcpp</ConfigPath>
 </Boot>
