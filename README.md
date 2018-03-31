@@ -28,7 +28,8 @@ Username / password for the default admin account is: `admin` / `password`
     docker volume create --name airdcpp
 
 This command creates a named volume that will store the application settings.
-_Run the `volume create` command only once._
+
+> NOTE Run the `volume create` command only once.
 
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
@@ -107,7 +108,7 @@ by setting these environment variables before running `docker-compose up -d`.
 
 - `UDP_PORT`
 
-  Published TCP port for incoming connections. Defaults to 21248. If this is
+  Published UDP port for incoming connections. Defaults to 21248. If this is
   changed you have to change it in the application settings as well.
 
 - `TLS_PORT`
@@ -123,7 +124,7 @@ Volumes
 
   This volume stores the application settings.
 
-  *NOTE*
+  > NOTE
   If you mount this directory from your host you will not have the default
   configuration files in the settings directory. You need to copy them from
   this repo. The files are found in the [.airdcpp] directory.
@@ -186,6 +187,7 @@ Upgrade
 Example:
 
     docker pull gangefors/docker-airdcpp-webclient
+    docker stop airdcpp
     docker rm -f airdcpp
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
