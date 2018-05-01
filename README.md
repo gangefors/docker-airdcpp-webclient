@@ -206,7 +206,8 @@ how you do it.
 
 > NOTE The container must be running.
 
-    docker exec -it airdcpp openssl req -subj "/C=/ST=/L=/O=/CN=localhost" \
+    docker exec -it airdcpp openssl req \
+        -subj "/C=US/ST=State/L=City/O=/CN=localhost" \
         -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /.airdcpp/Certificates/client.key \
         -out /.airdcpp/Certificates/client.crt
