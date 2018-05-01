@@ -188,7 +188,7 @@ Example:
 
     docker pull gangefors/docker-airdcpp-webclient
     docker stop airdcpp
-    docker rm -f airdcpp
+    docker rm airdcpp
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -v airdcpp:/.airdcpp \
@@ -207,7 +207,7 @@ how you do it.
 > NOTE The container must be running.
 
     docker exec -it airdcpp openssl req \
-        -subj "/C=US/ST=State/L=City/O=/CN=localhost" \
+        -subj "/C=US/ST=State/L=City/O=/CN=localhost" \
         -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /.airdcpp/Certificates/client.key \
         -out /.airdcpp/Certificates/client.crt
