@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-ARG version=2.4.0
+ARG version=2.5.0
 ARG dl_url=http://web-builds.airdcpp.net/stable/airdcpp_${version}_webui-${version}_64-bit_portable.tar.gz
 
 RUN installDeps=' \
