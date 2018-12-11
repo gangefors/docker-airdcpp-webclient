@@ -180,9 +180,9 @@ overwritten when the application shuts down.
 Upgrade
 -------
 
-1. Pull the latest image.
-2. Stop and remove the container.
-3. Start a new container with the same command you started the old one.
+0. Pull the latest image.
+0. Stop and remove the container.
+0. Start a new container with the same command you started the old one.
 
 Example:
 
@@ -217,6 +217,29 @@ service on. You can also add more information in the -subj string if you want.
 Check [this site][certs] for more information on the different fields.
 
 
+Building the Docker image
+-------------------------
+
+> This is not needed since the images are already pushed to Docker hub.
+
+If you want to build your own image run the following command.
+
+    docker build --no-cache --pull -t gangefors/airdcpp-webclient:latest .
+
+The Dockerfile is set up to fetch the latest version on master branch in the
+[airdcpp-webclient git repo].
+
+
+### Build a different version
+
+To build a different version than `latest` supply the build-arg `dl_url`.
+Find the URL for the version you want to build at http://web-builds.airdcpp.net/stable/
+
+    dl_url=http://web-builds.airdcpp.net/stable/airdcpp_2.1.0_webui-2.1.0_64-bit_portable.tar.gz \
+    docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.1.0 \
+        --build-arg dl_url .
+
+
 [docker]: https://docs.docker.com/learn/
 [Exposed Ports]: #exposed-ports
 [http://localhost]: http://localhost
@@ -224,3 +247,4 @@ Check [this site][certs] for more information on the different fields.
 [.airdcpp]: .airdcpp
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
+[airdcpp-webclient git repo]: https://github.com/airdcpp-web/airdcpp-webclient

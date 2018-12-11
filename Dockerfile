@@ -1,7 +1,6 @@
 FROM debian:stable-slim
 
-ARG version=2.4.0
-ARG dl_url=http://web-builds.airdcpp.net/stable/airdcpp_${version}_webui-${version}_64-bit_portable.tar.gz
+ARG dl_url=http://web-builds.airdcpp.net/stable/airdcpp_latest_master_64-bit_portable.tar.gz
 
 RUN installDeps=' \
         curl \
@@ -21,7 +20,8 @@ RUN installDeps=' \
     && apt-get install -y --no-install-recommends nodejs \
 # Setup application
     && mkdir /Downloads /Share \
-    && curl $dl_url | tar -xz -C / \
+    && echo "Downloading ${dl_url}..." \
+    && curl -# $dl_url | tar -xz -C / \
 # Cleanup
     && apt-get purge --autoremove -y $installDeps \
     && rm -rf /var/lib/apt/lists/*
