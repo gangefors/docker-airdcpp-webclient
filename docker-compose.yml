@@ -2,7 +2,7 @@
 version: '2.1'
 services:
   airdcpp:
-    image: gangefors/airdcpp-webclient
+    image: algonrey/airdcpp
     volumes:
       - airdcpp:/.airdcpp
     user: ${UID:-0}:${GID:-0}
