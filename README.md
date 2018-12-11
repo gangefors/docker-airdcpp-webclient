@@ -1,3 +1,6 @@
+##### Last Version `2.5.0`
+
+---
 AirDC++ Web Client Docker image
 ===============================
 
@@ -13,7 +16,7 @@ Run the application
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
-        gangefors/airdcpp-webclient
+        algonrey/airdcpp
 
 The web UI will be available on [http://localhost].
 
@@ -36,7 +39,7 @@ This command creates a named volume that will store the application settings.
         -v airdcpp:/.airdcpp \ 
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
-        gangefors/airdcpp-webclient
+        algonrey/airdcpp
 
 This command starts a container using the default settings built into the
 image, binding the application to port 80/443 (default http/https port) so
@@ -58,7 +61,7 @@ downloaded files.
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         -u $(id -u):$(id -g) \
-        gangefors/airdcpp-webclient
+        algonrey/airdcpp
 
 > NOTE
 If you already have run the container as root, the files in the volume might
@@ -168,7 +171,7 @@ To add/modify _adminitrative_ users to the web interface, run the following.
 
     docker stop airdcpp
     docker run --rm -it --volumes-from airdcpp \
-        gangefors/airdcpp-webclient --add-user
+        algonrey/airdcpp --add-user
     docker start airdcpp
 
 > NOTE
@@ -186,7 +189,7 @@ Upgrade
 
 Example:
 
-    docker pull gangefors/docker-airdcpp-webclient
+    docker pull algonrey/airdcpp
     docker stop airdcpp
     docker rm airdcpp
     docker run -d --name airdcpp \
@@ -194,7 +197,7 @@ Example:
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
-        gangefors/docker-airdcpp-webclient
+        algonrey/airdcpp
 
 
 Enable HTTPS
