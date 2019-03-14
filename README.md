@@ -29,7 +29,7 @@ Username / password for the default admin account is: `admin` / `password`
 
 This command creates a named volume that will store the application settings.
 
-> NOTE Run the `volume create` command only once.
+> Run the `volume create` command only once.
 
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
@@ -60,8 +60,7 @@ downloaded files.
         -u $(id -u):$(id -g) \
         gangefors/airdcpp-webclient
 
-> NOTE
-If you already have run the container as root, the files in the volume might
+> If you already have run the container as root, the files in the volume might
 be owned by root. Fix that by `chown`ing the files to the user you run as.
 
     docker run --rm \
@@ -124,10 +123,13 @@ Volumes
 
   This volume stores the application settings.
 
-  > NOTE
-  If you mount this directory from your host you will not have the default
+  > If you mount this directory from your host you will not have the default
   configuration files in the settings directory. You need to copy them from
   this repo. The files are found in the [.airdcpp] directory.
+
+      mkdir .airdcpp
+      curl -o .airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
+      curl -o .airdcpp/WebServer.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/WebServer.xml
 
 - `/Downloads`
 
@@ -152,8 +154,8 @@ Exposed Ports
 - `21249` TCP port for incoming encrypted connections. You have to publish this
   on the same port number otherwise clients will not be able to connect.
 
-If you want to use other ports for incoming connections you are can change
-them under Settings>Connectivity>Advanced>Ports in the web UI.
+If you want to use other ports for incoming connections you can change them
+under Settings>Connectivity>Advanced>Ports in the web UI.
 
 The incoming connection ports are used to be able to be in *active mode*. This
 allows you to connect to all peers in a hub, including the ones in *passive mode*.
@@ -164,15 +166,14 @@ Read more about connectivity modes in the [official FAQ][conn_faq].
 Add/modify admin users
 ----------------------
 
-To add/modify _adminitrative_ users to the web interface, run the following.
+To add/modify _administrative_ users to the web interface, run the following.
 
     docker stop airdcpp
     docker run --rm -it --volumes-from airdcpp \
         gangefors/airdcpp-webclient --add-user
     docker start airdcpp
 
-> NOTE
-You must stop the webclient application container before running this
+> You must stop the webclient application container before running this
 command. If you add a user while it's running, the configuration will be
 overwritten when the application shuts down.
 
@@ -204,7 +205,7 @@ The image comes with self-signed certificates so you should be able to use
 HTTPS out of the box. But if you want to generate your own certificates here's
 how you do it.
 
-> NOTE The container must be running.
+> The container must be running.
 
     docker exec -it airdcpp openssl req \
         -subj "/C=US/ST=State/L=City/O=/CN=localhost" \
