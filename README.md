@@ -10,6 +10,7 @@ Run the application
     docker volume create --name airdcpp
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -u $(id -u):$(id -g) \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -33,6 +34,7 @@ This command creates a named volume that will store the application settings.
 
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -u $(id -u):$(id -g) \
         -v airdcpp:/.airdcpp \ 
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -40,28 +42,14 @@ This command creates a named volume that will store the application settings.
 
 This command starts a container using the default settings built into the
 image, binding the application to port 80/443 (default http/https port) so
-it's readily available on [http://localhost] and [https://localhost]
+it's readily available on [http://localhost] and [https://localhost].
+The container is started as the user running the command meaning that all files
+created by the container will be owned by the current user.
 It will also mount Downloads and Share from you home directory, change these
 according to your personal setup.
 
-
-Run as non-privileged user
---------------------------
-
-If you'd like to run in a non-privileged container you can do that as well.
-It might even be preferable since then you get to decide who owns the
-downloaded files.
-
-    docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -v airdcpp:/.airdcpp \
-        -v $HOME/Downloads:/Downloads \
-        -v $HOME/Share:/Share \
-        -u $(id -u):$(id -g) \
-        gangefors/airdcpp-webclient
-
-> If you already have run the container as root, the files in the volume might
-be owned by root. Fix that by `chown`ing the files to the user you run as.
+> If you already have run the container as root, the files in the config volume
+might be owned by root. Fix that by `chown`ing the files to the user you run as.
 
     docker run --rm \
         -v airdcpp:/.airdcpp \
@@ -77,7 +65,7 @@ service on a docker host. Just run the following.
 
     docker-compose up -d
 
-### Environment
+**Environment**
 
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
