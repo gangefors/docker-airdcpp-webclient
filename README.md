@@ -34,7 +34,7 @@ This command creates a named volume that will store the application settings.
 
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -u $(id -u):$(id -g) \
+        --user $(id -u):$(id -g) \
         -v airdcpp:/.airdcpp \ 
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -48,8 +48,9 @@ created by the container will be owned by the current user.
 It will also mount Downloads and Share from you home directory, change these
 according to your personal setup.
 
-> If you already have run the container as root, the files in the config volume
-might be owned by root. Fix that by `chown`ing the files to the user you run as.
+> If you already have run the container without the --user option, the files in
+the config volume might be owned by root. Fix that by `chown`ing the files to
+the user you run as.
 
     docker run --rm \
         -v airdcpp:/.airdcpp \
