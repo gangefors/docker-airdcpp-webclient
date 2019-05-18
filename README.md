@@ -54,7 +54,7 @@ the user you run as.
 
     docker run --rm \
         -v airdcpp:/.airdcpp \
-        ubuntu:16.04 \
+        debian:stable-slim \
         chown -R $(id -u):$(id -g) /.airdcpp
 
 
@@ -170,9 +170,9 @@ overwritten when the application shuts down.
 Upgrade
 -------
 
-0. Pull the latest image.
-0. Stop and remove the container.
-0. Start a new container with the same command you started the old one.
+- Pull the latest image.
+- Stop and remove the container.
+- Start a new container with the same command you started the old one.
 
 Example:
 
