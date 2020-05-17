@@ -9,17 +9,17 @@ Run the application
 
     docker volume create --name airdcpp
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -u $(id -u):$(id -g) \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
-The web UI will be available on [http://localhost].
+The web UI will be available on [http://localhost:5600] or [https://localhost:5601].
 
-If you want to run the application on any other port than 80, just update
-the `-p` option in the command, e.g `-p 5600:5600` to bind to port 5600.
+If you want to access the Web UI on any other port than 5600/5601, just update
+the `-p` option in the command, e.g `-p 8081:5600` to bind to port 8081.
 See [Exposed Ports] below for details.
 
 Username / password for the default admin account is: `admin` / `password`
