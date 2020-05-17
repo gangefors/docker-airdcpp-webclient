@@ -112,9 +112,15 @@ Volumes
 
   This volume stores the application settings.
 
-  > If you mount this directory from your host you will not have the default
-  configuration files in the settings directory. You need to copy them from
-  this repo. The files are found in the [.airdcpp] directory.
+  Note that if you mount this directory from your host you will see the
+  following output when running the container.
+
+      No valid configuration found. Run the application with --configure parameter to set up initial configuration.
+
+  This is caused by the fact that the configuration files are missing.
+  The default files are found in the [.airdcpp] directory in this repo.
+  
+  You can download these files with the following commands.
 
       mkdir .airdcpp
       curl -o .airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
