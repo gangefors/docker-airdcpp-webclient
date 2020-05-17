@@ -238,8 +238,8 @@ Find the URL for the version you want to build at http://web-builds.airdcpp.net/
 
 [docker]: https://docs.docker.com/learn/
 [Exposed Ports]: #exposed-ports
-[http://localhost]: http://localhost
-[https://localhost]: https://localhost
+[http://localhost:5600]: http://localhost:5600
+[https://localhost:5601]: https://localhost:5601
 [.airdcpp]: .airdcpp
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
