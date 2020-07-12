@@ -231,9 +231,8 @@ The Dockerfile is set up to fetch the latest version on master branch in the
 To build a different version than `latest` supply the build-arg `dl_url`.
 Find the URL for the version you want to build at http://web-builds.airdcpp.net/stable/
 
-    dl_url=http://web-builds.airdcpp.net/stable/airdcpp_2.1.0_webui-2.1.0_64-bit_portable.tar.gz \
-    docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.1.0 \
-        --build-arg dl_url .
+    export dl_url="https://web-builds.airdcpp.net/stable/airdcpp_2.7.0_webui-2.7.0_64-bit_portable.tar.gz"
+    docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.7.0 --build-arg dl_url .
 
 
 [docker]: https://docs.docker.com/learn/
