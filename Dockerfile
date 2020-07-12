@@ -1,6 +1,7 @@
-FROM debian:stable-slim
+ARG distro=stable-slim
+FROM debian:${distro}
 
-ARG dl_url=http://web-builds.airdcpp.net/stable/airdcpp_latest_master_64-bit_portable.tar.gz
+ARG dl_url="https://web-builds.airdcpp.net/stable/airdcpp_latest_master_64-bit_portable.tar.gz"
 
 RUN installDeps=' \
         curl \
@@ -14,16 +15,16 @@ RUN installDeps=' \
 # Install runtime dependencies
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
-    && apt-get install -y --no-install-recommends $installDeps $runtimeDeps \
+    && apt-get install -y --no-install-recommends ${installDeps} ${runtimeDeps} \
 # Install node.js to enable airdcpp extensions
-    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
 # Setup application
     && mkdir /Downloads /Share \
     && echo "Downloading ${dl_url}..." \
-    && curl -# $dl_url | tar -xz -C / \
+    && curl --progress-bar ${dl_url} | tar -xz -C / \
 # Cleanup
-    && apt-get purge --autoremove -y $installDeps \
+    && apt-get purge --autoremove -y ${installDeps} \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure locale
