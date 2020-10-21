@@ -112,19 +112,30 @@ Volumes
 
   This volume stores the application settings.
 
-  Note that if you mount this directory from your host you will see the
-  following output when running the container.
+  Note that if you bind mount this volume using a directory on your
+  host you will see the following output when running the container.
 
       No valid configuration found. Run the application with --configure parameter to set up initial configuration.
 
-  This is caused by the fact that the configuration files are missing.
-  The default files are found in the [.airdcpp] directory in this repo.
+  This is caused by the fact that bind mounting a volume [will obscure
+  any existing content][bindmount] of that volume to the bind mounted
+  directory. This causes the configuration files to be missing. The
+  default files can be found in the [.airdcpp] directory in this repo.
   
-  You can download these files with the following commands.
+  You can solve this by using the commands below. Notice how we use
+  a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of a
+  named Docker volume `-v airdcpp:/.airdcpp`.
 
       mkdir .airdcpp
       curl -o .airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
       curl -o .airdcpp/WebServer.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/WebServer.xml
+      docker run -d --name airdcpp \
+        -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -u $(id -u):$(id -g) \
+        -v $HOME/.airdcpp:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
+        gangefors/airdcpp-webclient
 
 - `/Downloads`
 
@@ -243,3 +254,4 @@ Find the URL for the version you want to build at http://web-builds.airdcpp.net/
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
 [airdcpp-webclient git repo]: https://github.com/airdcpp-web/airdcpp-webclient
+[bindmount]: https://docs.docker.com/storage/bind-mounts/#mount-into-a-non-empty-directory-on-the-container
