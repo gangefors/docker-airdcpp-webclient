@@ -126,9 +126,9 @@ Volumes
   a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of a
   named Docker volume `-v airdcpp:/.airdcpp`.
 
-      mkdir .airdcpp
-      curl -o .airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
-      curl -o .airdcpp/WebServer.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/WebServer.xml
+      mkdir $HOME/.airdcpp
+      curl -o $HOME/.airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
+      curl -o $HOME/.airdcpp/WebServer.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/WebServer.xml
       docker run -d --name airdcpp \
         -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -u $(id -u):$(id -g) \
