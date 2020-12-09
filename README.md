@@ -1,6 +1,7 @@
 AirDC++ Web Client Docker image
 ===============================
 
+Docker image running [AirDC++ Webclient software][airdcpp-github].
 You must have proper knowledge of [Docker] to use this image.
 
 
@@ -16,7 +17,7 @@ Run the application
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
-The web UI will be available on [http://localhost:5600] or [https://localhost:5601].
+The web UI will be available on http://localhost:5600 or https://localhost:5601.
 
 If you want to access the Web UI on any other port than 5600/5601, just update
 the `-p` option in the command, e.g `-p 8081:5600` to bind to port 8081.
@@ -42,7 +43,7 @@ This command creates a named volume that will store the application settings.
 
 This command starts a container using the default settings built into the
 image, binding the application to port 80/443 (default http/https port) so
-it's readily available on [http://localhost] and [https://localhost].
+it's readily available on http://localhost and https://localhost.
 The container is started as the user running the command meaning that all files
 created by the container will be owned by the current user.
 It will also mount Downloads and Share from you home directory, change these
@@ -234,24 +235,23 @@ If you want to build your own image run the following command.
     docker build --no-cache --pull -t gangefors/airdcpp-webclient:latest .
 
 The Dockerfile is set up to fetch the latest version on master branch in the
-[airdcpp-webclient git repo].
+[airdcpp-webclient git repo][airdcpp-github].
 
 
 ### Build a different version
 
 To build a different version than `latest` supply the build-arg `dl_url`.
-Find the URL for the version you want to build at http://web-builds.airdcpp.net/stable/
+Find the URL for the version you want to build at https://web-builds.airdcpp.net/stable/
 
     export dl_url="https://web-builds.airdcpp.net/stable/airdcpp_2.7.0_webui-2.7.0_64-bit_portable.tar.gz"
     docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.7.0 --build-arg dl_url .
 
-
+[.airdcpp]: .airdcpp
+[airdcpp-github]: https://github.com/airdcpp-web/airdcpp-webclient
+[bindmount]: https://docs.docker.com/storage/bind-mounts/#mount-into-a-non-empty-directory-on-the-container
+[certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
+[conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [docker]: https://docs.docker.com/learn/
 [Exposed Ports]: #exposed-ports
 [http://localhost:5600]: http://localhost:5600
 [https://localhost:5601]: https://localhost:5601
-[.airdcpp]: .airdcpp
-[conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
-[certs]: http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive
-[airdcpp-webclient git repo]: https://github.com/airdcpp-web/airdcpp-webclient
-[bindmount]: https://docs.docker.com/storage/bind-mounts/#mount-into-a-non-empty-directory-on-the-container
