@@ -129,9 +129,15 @@ Volumes
   use a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of
   a named Docker volume `-v airdcpp:/.airdcpp`.
 
+      # Create the configuration directory
       mkdir $HOME/.airdcpp
-      curl -o $HOME/.airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
-      curl -o $HOME/.airdcpp/WebServer.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/WebServer.xml
+      # Run container to configure the application
+      docker run --rm -it \
+        -u $(id -u):$(id -g) \
+        -v $HOME/.airdcpp:/.airdcpp \
+        gangefors/airdcpp-webclient --configure
+      # Answer the questions...
+      # Start the application using the new configuration
       docker run -d --name airdcpp \
         -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -u $(id -u):$(id -g) \
