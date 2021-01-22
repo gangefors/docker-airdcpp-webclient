@@ -120,12 +120,14 @@ Volumes
 
   This is caused by the fact that bind mounting a volume [will obscure
   any existing content][bindmount] of that volume to the bind mounted
-  directory. This causes the configuration files to be missing. The
-  default files can be found in the [.airdcpp] directory in this repo.
+  directory. This causes the configuration files to be missing.
+  You need to prepopulate the host directory with the default
+  configuration. These files can be found in the [.airdcpp] directory
+  in this repo. Just copy those files to the bind mounted directory.
   
-  You can solve this by using the commands below. Notice how we use
-  a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of a
-  named Docker volume `-v airdcpp:/.airdcpp`.
+  You can also solve this by using the commands below. Notice how we
+  use a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of
+  a named Docker volume `-v airdcpp:/.airdcpp`.
 
       mkdir $HOME/.airdcpp
       curl -o $HOME/.airdcpp/DCPlusPlus.xml https://raw.githubusercontent.com/gangefors/docker-airdcpp-webclient/master/.airdcpp/DCPlusPlus.xml
