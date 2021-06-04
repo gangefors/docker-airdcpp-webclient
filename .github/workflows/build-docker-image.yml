@@ -11,7 +11,7 @@ jobs:
         run: |
           release_version=$(curl -sL https://api.github.com/repos/airdcpp-web/airdcpp-webclient/releases/latest | jq -r ".tag_name")
           num_rels_found=$(curl -s "https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated" | jq '.results[].name' | grep -c "${release_version}")
-          echo ::set-output name=new_release::${{ num_rels_found == 0 }}
+          echo ::set-output name=new_release::${{ $num_rels_found == 0 }}
           echo ::set-output name=release_tag::${release_version}
       -
         if: ${{ steps.airdcpp-release.outputs.new_release }}
