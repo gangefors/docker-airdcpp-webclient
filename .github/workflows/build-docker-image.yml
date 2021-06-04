@@ -1,6 +1,8 @@
-name: Build and push Docker image on new release
+name: Create Docker image on new release
 on:
   workflow_dispatch:
+  schedule:
+    - cron:  '0 20 * * *'
 jobs:
   buildDockerImage:
     runs-on: ubuntu-latest
