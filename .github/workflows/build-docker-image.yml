@@ -9,7 +9,7 @@ jobs:
         name: Get latest airdcpp release
         id: airdcpp-release
         run: |
-          local current_release=$(curl -sL https://api.github.com/repos/airdcpp-web/airdcpp-webclient/releases/latest | jq -r ".tag_name")
+          current_release=$(curl -sL https://api.github.com/repos/airdcpp-web/airdcpp-webclient/releases/latest | jq -r ".tag_name")
           curl -s "https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated" | jq '.results[].name' | grep -q "${current_release}"
       -
         name: Checkout
