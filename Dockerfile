@@ -12,15 +12,14 @@ RUN installDeps=' \
         locales \
         openssl \
     ' \
-# Install runtime dependencies
+# Install dependencies
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y --no-install-recommends ${installDeps} ${runtimeDeps} \
-# Install node.js to enable airdcpp extensions
+# Install node.js to enable airdcpp extension support
     && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
-# Setup application
-    && mkdir /Downloads /Share \
+# Download and install airdcpp
     && echo "Downloading ${dl_url}..." \
     && curl --progress-bar ${dl_url} | tar -xz -C / \
 # Cleanup
@@ -34,11 +33,11 @@ ENV LC_ALL en_US.UTF-8
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen && dpkg-reconfigure -f noninteractive locales
 
-WORKDIR /airdcpp-webclient
-COPY dcppboot.xml dcppboot.xml
-COPY .airdcpp/ /.airdcpp
-RUN chmod -R ugo+w /.airdcpp
+# Create default directories and make them read/write by everyone
+RUN mkdir -p /.airdcpp /Downloads /Share \
+        && chmod ugo+rw /.airdcpp /airdcpp-webclient /Downloads /Share
 
-VOLUME /.airdcpp
-EXPOSE 5600 5601
-ENTRYPOINT ["./airdcppd"]
+COPY .airdcpp/ /.default-config
+COPY entrypoint.sh /entrypoint.sh
+EXPOSE 5600 5601 21248 21249
+ENTRYPOINT ["/entrypoint.sh"]

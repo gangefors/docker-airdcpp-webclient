@@ -10,53 +10,58 @@ Run the application
 
     docker volume create --name airdcpp
     docker run -d --name airdcpp \
-        -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -u $(id -u):$(id -g) \
+        -p 80:5600 -p 443:5601 \
+        -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -e PUID=`id -u` \
+        -e PGID=`id -g` \
         -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
-The web UI will be available on http://localhost:5600 or https://localhost:5601.
+The web UI will be available on http://localhost and https://localhost.
+HTTPS is using self-signed certs, see [Enable HTTPS] for more details.
 
-If you want to access the Web UI on any other port than 5600/5601, just update
-the `-p` option in the command, e.g `-p 8081:5600` to bind to port 8081.
-See [Exposed Ports] below for details.
+If you want to access the Web UI on any other port, just update the `-p`
+option in the command, e.g `-p 8081:5600` to bind to port 8081 instead.
+See [Exposed Ports] for more details.
 
-Username / password for the default admin account is: `admin` / `password`
+> Username / password for the default admin account is: `admin` / `password`
 
-##### Explanation
+> PUID / PGID environment variables are only available using the `latest`
+> tag and versions later than 2.11.0. Older images will *not* be rebuilt.
 
+**Command Explanation**
+
+1.
     docker volume create --name airdcpp
 
 This command creates a named volume that will store the application settings.
 
 > Run the `volume create` command only once.
 
+2.
     docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        --user $(id -u):$(id -g) \
-        -v airdcpp:/.airdcpp \ 
+        -p 80:5600 -p 443:5601 \
+        -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -e PUID=`id -u` \
+        -e PGID=`id -g` \
+        -v airdcpp:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
 This command starts a container using the default settings built into the
-image, binding the application to port 80/443 (default http/https port) so
+image, binding the application to port 80/443 (default http/https ports) so
 it's readily available on http://localhost and https://localhost.
-The container is started as the user running the command meaning that all files
-created by the container will be owned by the current user.
-It will also mount Downloads and Share from you home directory, change these
-according to your personal setup.
 
-> If you already have run the container without the --user option, the files in
-the config volume might be owned by root. Fix that by `chown`ing the files to
-the user you run as.
+The container is started as root but the application within will be running as
+the user running the docker command. This is necessary to make the files
+written by the application to be owned by your local user even outside the
+container.
 
-    docker run --rm \
-        -v airdcpp:/.airdcpp \
-        debian:stable-slim \
-        chown -R $(id -u):$(id -g) /.airdcpp
+It will also mount "Downloads" and "Share" from you home directory. Change
+these according to your personal setup.
 
 
 docker-compose
@@ -67,43 +72,43 @@ service on a docker host. Just run the following.
 
     docker-compose up -d
 
-**Environment**
+### Environment variables
 
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
 
 - `UID`
 
-  Container is started with this user id. Defaults to 0 (root).
-  Usually you want this to be $(id -u).
+  Application runs as this user id. Defaults to 0 (root).
+  Usually you want this to be your local user id.
 
 - `GID`
 
-  Container is started with this group id. Defaults to 0 (root).
-  Usually you want this to be $(id -g).
+  Application runs as this group id. Defaults to 0 (root).
+  Usually you want this to be your local user's group id.
 
 - `HTTP_PORT`
 
-  Published HTTP port. Defaults to 5600.
+  Published HTTP port. Defaults to 80.
 
 - `HTTPS_PORT`
 
-  Published HTTPS port. Defaults to 5601.
+  Published HTTPS port. Defaults to 443.
 
 - `TCP_PORT`
 
-  Published TCP port for incoming connections. Defaults to 21248. If this is
-  changed you have to change it in the application settings as well.
+  Published TCP port for incoming connections. Defaults to 21248.
+  If this is changed you have to change it in the application settings as well.
 
 - `UDP_PORT`
 
-  Published UDP port for incoming connections. Defaults to 21248. If this is
-  changed you have to change it in the application settings as well.
+  Published UDP port for incoming connections. Defaults to 21248.
+  If this is changed you have to change it in the application settings as well.
 
 - `TLS_PORT`
 
-  Published TLS port for incoming connections. Defaults to 21249. If this is
-  changed you have to change it in the application settings as well.
+  Published TLS port for incoming connections. Defaults to 21249.
+  If this is changed you have to change it in the application settings as well.
 
 
 Volumes
@@ -113,38 +118,8 @@ Volumes
 
   This volume stores the application settings.
 
-  Note that if you bind mount this volume using a directory on your
-  host you will see the following output when running the container.
-
-      No valid configuration found. Run the application with --configure parameter to set up initial configuration.
-
-  This is caused by the fact that bind mounting a volume [will obscure
-  any existing content][bindmount] of that volume to the bind mounted
-  directory. This causes the configuration files to be missing.
-  You need to prepopulate the host directory with the default
-  configuration. These files can be found in the [.airdcpp] directory
-  in this repo. Just copy those files to the bind mounted directory.
-  
-  You can also solve this by using the commands below. Notice how we
-  use a bind mounted volume `-v $HOME/.airdcpp:/.airdcpp` instead of
-  a named Docker volume `-v airdcpp:/.airdcpp`.
-
-      # Create the configuration directory
-      mkdir $HOME/.airdcpp
-      # Run container to configure the application
-      docker run --rm -it \
-        -u $(id -u):$(id -g) \
-        -v $HOME/.airdcpp:/.airdcpp \
-        gangefors/airdcpp-webclient --configure
-      # Answer the questions...
-      # Start the application using the new configuration
-      docker run -d --name airdcpp \
-        -p 5600:5600 -p 5601:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -u $(id -u):$(id -g) \
-        -v $HOME/.airdcpp:/.airdcpp \
-        -v $HOME/Downloads:/Downloads \
-        -v $HOME/Share:/Share \
-        gangefors/airdcpp-webclient
+  On launch it will be populated with default settings unless the folder
+  already contains the DCPlusPlus.xml configuration file.
 
 - `/Downloads`
 
@@ -154,6 +129,8 @@ Volumes
 - `/Share`
 
   This is the default share folder.
+
+  Any bind mounted folder under this will automatically be added to your Share.
 
 
 Exposed Ports
@@ -233,6 +210,18 @@ service on. You can also add more information in the -subj string if you want.
 Check [this site][certs] for more information on the different fields.
 
 
+Troubleshooting
+---------------
+
+* If you get any permission issues with the config files you can solve this by
+  running a temporary container and `chown`ing the files through that.
+
+    docker run --rm \
+        -v airdcpp:/.airdcpp \
+        debian:stable-slim \
+        chown -R $(id -u):$(id -g) /.airdcpp
+
+
 Building the Docker image
 -------------------------
 
@@ -254,6 +243,7 @@ Find the URL for the version you want to build at https://web-builds.airdcpp.net
     export dl_url="https://web-builds.airdcpp.net/stable/airdcpp_2.7.0_webui-2.7.0_64-bit_portable.tar.gz"
     docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.7.0 --build-arg dl_url .
 
+
 [.airdcpp]: .airdcpp
 [airdcpp-github]: https://github.com/airdcpp-web/airdcpp-webclient
 [bindmount]: https://docs.docker.com/storage/bind-mounts/#mount-into-a-non-empty-directory-on-the-container
@@ -261,5 +251,4 @@ Find the URL for the version you want to build at https://web-builds.airdcpp.net
 [conn_faq]: http://dcplusplus.sourceforge.net/webhelp/faq_connection.html
 [docker]: https://docs.docker.com/learn/
 [Exposed Ports]: #exposed-ports
-[http://localhost:5600]: http://localhost:5600
-[https://localhost:5601]: https://localhost:5601
+[Enable HTTPS]: #enable-https
