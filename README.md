@@ -33,14 +33,13 @@ See [Exposed Ports] for more details.
 
 **Command Explanation**
 
-1.
     docker volume create --name airdcpp
 
 This command creates a named volume that will store the application settings.
 
 > Run the `volume create` command only once.
 
-2.
+
     docker run -d --name airdcpp \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
