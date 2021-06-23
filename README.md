@@ -215,7 +215,7 @@ Troubleshooting
 * If you get any permission issues with the config files you can solve this by
   running a temporary container and `chown`ing the files through that.
 
-    docker run --rm \
+      docker run --rm \
         -v airdcpp:/.airdcpp \
         debian:stable-slim \
         chown -R $(id -u):$(id -g) /.airdcpp
