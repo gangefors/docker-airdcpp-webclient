@@ -272,7 +272,7 @@ The Dockerfile is set up to fetch the latest version on master branch in the
 [airdcpp-webclient git repo][airdcpp-github].
 
 
-### Build a different version
+#### Build a different version
 
 To build a different version than `latest` supply the build-arg `dl_url`.
 Find the URL for the version you want to build at https://web-builds.airdcpp.net/stable/
