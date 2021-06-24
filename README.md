@@ -109,7 +109,7 @@ service on a docker host. Just run the following.
 
     docker-compose up -d
 
-### Environment variables
+### Compose variables
 
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
