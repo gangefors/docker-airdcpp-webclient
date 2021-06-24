@@ -4,10 +4,12 @@ set -x
 # Remove unencrypted backup of WebServer.xml (not used anymore)
 rm -f /.airdcpp/WebServer.xml.bak
 
+# Create symlink to configuration directory
+ln -sf /.airdcpp /airdcpp-webclient/config
+
 # If configuration doesn't exist, create defaults
 if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
 then
-    ln -sf /.airdcpp /airdcpp-webclient/config
     cp /.default-config/* /.airdcpp
 fi
 
