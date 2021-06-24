@@ -8,13 +8,13 @@ You must have proper knowledge of [Docker] to use this image.
 Run the application
 -------------------
 
-    docker volume create --name airdcpp
-    docker run -d --name airdcpp \
+    docker volume create --name airdcpp-volume
+    docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -e PUID=`id -u` \
         -e PGID=`id -g` \
-        -v airdcpp:/.airdcpp \
+        -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
@@ -33,19 +33,19 @@ See [Exposed Ports] for more details.
 
 #### Command Explanation
 
-    docker volume create --name airdcpp
+    docker volume create --name airdcpp-volume
 
 This command creates a named volume that will store the application settings.
 
 > Run the `volume create` command only once.
 
 
-    docker run -d --name airdcpp \
+    docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         -e PUID=`id -u` \
         -e PGID=`id -g` \
-        -v airdcpp:/.airdcpp \
+        -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
@@ -91,11 +91,11 @@ You can also put in specific IDs if you want to run as a different user than
 the current, for example if you need to use an ID that is lower than the ones
 supported by PUID/PGID (but not 0).
 
-    docker run -d --name airdcpp \
+    docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
         --user $(id -u):$(id -g) \
-        -v airdcpp:/.airdcpp \
+        -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
@@ -197,10 +197,11 @@ Add/modify admin users
 
 To add/modify _administrative_ users to the web interface, run the following.
 
-    docker stop airdcpp
-    docker run --rm -it --volumes-from airdcpp \
+    docker stop airdcpp-container
+    docker run --rm -it --volumes-from airdcpp-container \
+        -e PUID=`id -u` -e PGID=`id -g` \
         gangefors/airdcpp-webclient --add-user
-    docker start airdcpp
+    docker start airdcpp-container
 
 > You must stop the webclient application container before running this
 command. If you add a user while it's running, the configuration will be
@@ -217,14 +218,17 @@ Upgrade
 Example:
 
     docker pull gangefors/docker-airdcpp-webclient
-    docker stop airdcpp
-    docker rm airdcpp
-    docker run -d --name airdcpp \
-        -p 80:5600 -p 443:5601 -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -v airdcpp:/.airdcpp \
+    docker stop airdcpp-container
+    docker rm airdcpp-container
+    docker run -d --name airdcpp-container \
+        -p 80:5600 -p 443:5601 \
+        -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -e PUID=`id -u` \
+        -e PGID=`id -g` \
+        -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
-        gangefors/docker-airdcpp-webclient
+        gangefors/airdcpp-webclient
 
 
 Enable HTTPS
@@ -236,7 +240,7 @@ how you do it.
 
 > The container must be running.
 
-    docker exec -it airdcpp openssl req \
+    docker exec -it airdcpp-container openssl req \
         -subj "/C=US/ST=State/L=City/O=/CN=localhost" \
         -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /.airdcpp/Certificates/client.key \
@@ -254,7 +258,7 @@ Troubleshooting
   running a temporary container and `chown`ing the files through that.
 
       docker run --rm \
-        -v airdcpp:/.airdcpp \
+        --volumes-from=airdcpp-container \
         debian:stable-slim \
         chown -R $(id -u):$(id -g) /.airdcpp
 
