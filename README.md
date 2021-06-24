@@ -62,6 +62,44 @@ container.
 It will also mount "Downloads" and "Share" from you home directory. Change
 these according to your personal setup.
 
+### Environment variables
+
+If you run the container as root you need to set the following environment
+variables. Example: `-e PUID=1000 -e PGID=1000`.
+All files written by the application will be owned by this user and group.
+
+- `PUID`
+
+  Application runs as this user id.
+  Usually you want this to be your local user id. **Must be >= 101.**
+
+- `PGID`
+
+  Application runs as this group id.
+  Usually you want this to be your local user's group id. **Must be >= 100.**
+
+
+### Run container as non-root
+
+You can also start the container as a non-root user. This is another way of
+telling the application which user you want it to run as.
+
+Add `--user $(id -u):$(id -g)` to the `docker run` command and the container
+will start as the user that runs the command.
+
+You can also put in specific IDs if you want to run as a different user than
+the current, for example if you need to use an ID that is lower than the ones
+supported by PUID/PGID (but not 0).
+
+    docker run -d --name airdcpp \
+        -p 80:5600 -p 443:5601 \
+        -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        --user $(id -u):$(id -g) \
+        -v airdcpp:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
+        gangefors/airdcpp-webclient
+
 
 docker-compose
 --------------
@@ -76,15 +114,15 @@ service on a docker host. Just run the following.
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
 
-- `UID`
+- `PUID`
 
-  Application runs as this user id. Defaults to 0 (root).
-  Usually you want this to be your local user id.
+  Application runs as this user id. Defaults to 1000.
+  Usually you want this to be your local user id. Must be >= 101.
 
-- `GID`
+- `PGID`
 
-  Application runs as this group id. Defaults to 0 (root).
-  Usually you want this to be your local user's group id.
+  Application runs as this group id. Defaults to 1000.
+  Usually you want this to be your local user's group id. Must be >= 100.
 
 - `HTTP_PORT`
 
