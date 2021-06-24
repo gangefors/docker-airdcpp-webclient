@@ -31,7 +31,7 @@ See [Exposed Ports] for more details.
 > PUID / PGID environment variables are only available using the `latest`
 > tag and versions later than 2.11.0. Older images will *not* be rebuilt.
 
-**Command Explanation**
+#### Command Explanation
 
     docker volume create --name airdcpp
 
@@ -62,7 +62,7 @@ container.
 It will also mount "Downloads" and "Share" from you home directory. Change
 these according to your personal setup.
 
-### Environment variables
+#### Environment variables
 
 If you run the container as root you need to set the following environment
 variables. Example: `-e PUID=1000 -e PGID=1000`.
@@ -79,7 +79,7 @@ All files written by the application will be owned by this user and group.
   Usually you want this to be your local user's group id. **Must be >= 100.**
 
 
-### Run container as non-root
+#### Run container as non-root
 
 You can also start the container as a non-root user. This is another way of
 telling the application which user you want it to run as.
@@ -109,7 +109,7 @@ service on a docker host. Just run the following.
 
     docker-compose up -d
 
-### Compose variables
+#### Compose variables
 
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
