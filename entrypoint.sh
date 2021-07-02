@@ -4,7 +4,8 @@ set -x
 if [[ "$(id -u)" -ne 0 ]]
 then
     # Container is run as a normal user, check permissions
-    for item in $(find /.airdcpp)
+    find /.airdcpp -print0 |
+    while IFS= read -r -d '' item
     do
         if [[ ! (-r "$item" && -w "$item") ]]
         then
