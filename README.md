@@ -12,8 +12,8 @@ Run the application
     docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -e PUID=`id -u` \
-        -e PGID=`id -g` \
+        -e PUID=$(id -u) \
+        -e PGID=$(id -g) \
         -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -43,8 +43,8 @@ This command creates a named volume that will store the application settings.
     docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -e PUID=`id -u` \
-        -e PGID=`id -g` \
+        -e PUID=$(id -u) \
+        -e PGID=$(id -g) \
         -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
@@ -87,10 +87,6 @@ telling the application which user you want it to run as.
 Add `--user $(id -u):$(id -g)` to the `docker run` command and the container
 will start as the user that runs the command.
 
-You can also put in specific IDs if you want to run as a different user than
-the current, for example if you need to use an ID that is lower than the ones
-supported by PUID/PGID (but not 0).
-
     docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
@@ -99,6 +95,10 @@ supported by PUID/PGID (but not 0).
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
+
+You can also put in specific IDs if you want to run as a different user than
+the current, for example if you need to use an ID that is lower than the ones
+supported by PUID/PGID (but not 0).
 
 
 docker-compose
@@ -186,8 +186,8 @@ Exposed Ports
 If you want to use other ports for incoming connections you can change them
 under Settings>Connectivity>Advanced>Ports in the web UI.
 
-The incoming connection ports are used to be able to be in *active mode*. This
-allows you to connect to all peers in a hub, including the ones in *passive mode*.
+The incoming connection ports are used to enable *active mode*. This allows
+you to connect to all peers in a hub, including the ones in *passive mode*.
 
 Read more about connectivity modes in the [official FAQ][conn_faq].
 
@@ -199,7 +199,7 @@ To add/modify _administrative_ users to the web interface, run the following.
 
     docker stop airdcpp-container
     docker run --rm -it --volumes-from airdcpp-container \
-        -e PUID=`id -u` -e PGID=`id -g` \
+        -e PUID=$(id -u) -e PGID=$(id -g) \
         gangefors/airdcpp-webclient --add-user
     docker start airdcpp-container
 
@@ -223,8 +223,8 @@ Example:
     docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
         -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
-        -e PUID=`id -u` \
-        -e PGID=`id -g` \
+        -e PUID=$(id -u) \
+        -e PGID=$(id -g) \
         -v airdcpp-volume:/.airdcpp \
         -v $HOME/Downloads:/Downloads \
         -v $HOME/Share:/Share \
