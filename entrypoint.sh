@@ -1,23 +1,28 @@
 #!/bin/bash
 set -x
 
-# Remove unencrypted backup of WebServer.xml (not used anymore)
-rm -f /.airdcpp/WebServer.xml.bak
-
-# Create symlink to configuration directory
-ln -sf /.airdcpp /airdcpp-webclient/config
-
-# If configuration doesn't exist, create defaults
-if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
-then
-    cp /.default-config/* /.airdcpp
-fi
-
 if [[ "$(id -u)" -ne 0 ]]
 then
-    # Container is run as a normal user
-    echo "Any read/write error to configuration files is most likely due to permission issues."
-    echo "Make sure that all files in /.airdcpp are owned by $(id -u):$(id -g)."
+    # Container is run as a normal user, check permissions
+    for item in $(find /.airdcpp)
+    do
+        if [[ ! (-r "$item" && -w "$item") ]]
+        then
+            echo "Can't read/write configuration."
+            echo "Make sure that UID $(id -u) can read/write the"
+            echo "configuraton directory and all files therin."
+            exit 1
+        fi
+    done
+
+    # If configuration doesn't exist, create defaults
+    if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
+    then
+        cp /.default-config/* /.airdcpp
+    fi
+
+    # Remove unencrypted backup of WebServer.xml (not used anymore)
+    rm -f /.airdcpp/WebServer.xml.bak
 
     # Start airdcppd
     exec /airdcpp-webclient/airdcppd "$@"
@@ -48,7 +53,16 @@ else
 
     # Set ownership of config files and make all files writable
     chown -R ${PUID}:${PGID} /.airdcpp
-    chmod -R u+w /.airdcpp/*
+    chmod -R u+rw /.airdcpp
+
+    # If configuration doesn't exist, create defaults
+    if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
+    then
+        cp /.default-config/* /.airdcpp
+    fi
+
+    # Remove unencrypted backup of WebServer.xml (not used anymore)
+    rm -f /.airdcpp/WebServer.xml.bak
 
     # Start airdcppd
     exec runuser -u airdcpp -g airdcpp -- /airdcpp-webclient/airdcppd "$@"
