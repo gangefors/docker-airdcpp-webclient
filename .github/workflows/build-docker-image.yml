@@ -39,5 +39,5 @@ jobs:
           no-cache: true
           push: true
           tags: |
-            gangefors/airdcpp-webclient:latest-test
-            gangefors/airdcpp-webclient:${{ steps.airdcpp-release.outputs.release_tag }}-test
+            gangefors/airdcpp-webclient:latest
+            gangefors/airdcpp-webclient:${{ steps.airdcpp-release.outputs.release_tag }}
