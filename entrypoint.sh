@@ -36,9 +36,9 @@ else
         echo "PUID and PGID variables must be set when container is run as root."
         exit 1
     fi
-    if [[ "${PUID}" -lt 101 || "${PGID}" -lt 100 ]]
+    if [[ "${PUID}" -lt 101 || "${PGID}" -lt 101 ]]
     then
-        echo "PUID must be >= 101 and PGID must be >= 100."
+        echo "PUID must be >= 101 and PGID must be >= 101 due to existing IDs in the image."
         echo "If you need to use a lower ID, start container with --user <uid>:<gid> instead."
         exit 1
     fi
