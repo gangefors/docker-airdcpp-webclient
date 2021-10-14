@@ -126,7 +126,7 @@ by setting these environment variables before running `docker-compose up -d`.
 - `PGID`
 
   Application runs as this group id. Defaults to 1000.
-  Usually you want this to be your local user's group id. Must be >= 100.
+  Usually you want this to be your local user's group id. Must be >= 101.
 
 - `HTTP_PORT`
 
