@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+    <Name>AirDC++ Web Client</Name>
+    <Overview>
+    AirDC++ Web Client is an application designed for flexible sharing of files or directories within groups of people in a local network or over internet.
+    </Overview>
+    <Registry>https://hub.docker.com/r/gangefors/airdcpp-webclient/</Registry>
+    <Repository>gangefors/airdcpp-webclient</Repository>
+    <Support>https://github.com/gangefors/docker-airdcpp-webclient/issues</Support>
+    <Network>bridge</Network>
+    <WebUI>http://[IP]:[PORT:5600]/</WebUI>
+    <Icon>https://airdcpp-web.github.io/assets/AirDCPlusPlus.png</Icon>
+    <Category>File sharing:Direct Connect</Category>
+    <ExtraParams>--user 99:100</ExtraParams>
+    <Config Type="Path" Target="/.airdcpp" Default="/mnt/user/appdata/airdcpp" Mode="rw">/mnt/user/appdata/airdcpp</Config>
+    <Config Type="Path" Target="/Downloads" Default="/mnt/user/downloads" Mode="rw">/mnt/user/downloads</Config>
+    <Config Type="Path" Target="/Share" Default="/mnt/user/share" Mode="rw">/mnt/user/share</Config>
+    <Config Type="Port" Target="5600" Default="5600" Mode="tcp">5600</Config>
+    <Config Type="Port" Target="5601" Default="5601" Mode="tcp">5601</Config>
+    <Config Type="Port" Target="21248" Default="21248" Mode="tcp">21248</Config>
+    <Config Type="Port" Target="21248" Default="21248" Mode="udp">21248</Config>
+    <Config Type="Port" Target="21249" Default="21249" Mode="tcp">21249</Config>
+</Container>
