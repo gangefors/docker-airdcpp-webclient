@@ -78,7 +78,7 @@ All files written by the application will be owned by this user and group.
   Application runs as this group id.
   Usually you want this to be your local user's group id. **Must be >= 101.**
 
-> The reason for the >= 100 limitation is that the image already contains
+> The reason for the >= 101 limitation is that the image already contains
 > accounts and groups with IDs lower than that. Use `--user` if you need to
 > use IDs lower than 101.
 
