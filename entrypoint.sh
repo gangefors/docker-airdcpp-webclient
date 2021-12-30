@@ -1,6 +1,17 @@
 #!/bin/bash
 set -x
 
+is_podman() {
+    if [[ "$container" -eq podman ]]; then
+        true
+    else
+        if [[ "$container" -eq oci ]]; then
+            [[ -f /run/.containerenv ]]
+        else false
+        fi
+    fi
+}
+
 if [[ "$(id -u)" -ne 0 ]]
 then
     # Container is run as a normal user, check permissions
