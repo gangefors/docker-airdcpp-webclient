@@ -12,7 +12,7 @@ is_podman() {
     fi
 }
 
-if [[ "$(id -u)" -ne 0 ]]
+if is_podman || [[ ( "$(id -u)" -ne 0 ) ]]
 then
     # Container is run as a normal user, check permissions
     find /.airdcpp -print0 |
@@ -40,12 +40,6 @@ then
     exec /airdcpp-webclient/airdcppd "$@"
 else
     # Container is run as root
-    if is_podman
-    then
-        printf "this is podman, cool!\n"
-    else
-        printf "this is not podman, do our checks\n"
-    fi
 
     # Check PUID/PGID values
     if [[ -z "${PUID}" || -z "${PGID}" ]]
