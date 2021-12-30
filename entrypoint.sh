@@ -40,6 +40,12 @@ then
     exec /airdcpp-webclient/airdcppd "$@"
 else
     # Container is run as root
+    if is_podman
+    then
+        printf "this is podman, cool!\n"
+    else
+        printf "this is not podman, do our checks\n"
+    fi
 
     # Check PUID/PGID values
     if [[ -z "${PUID}" || -z "${PGID}" ]]
