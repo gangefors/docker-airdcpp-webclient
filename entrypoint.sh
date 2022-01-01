@@ -1,9 +1,12 @@
 #!/bin/bash
 set -x
 
-if [[ "$(id -u)" -ne 0 ]]
-then
-    # Container is run as a normal user, check permissions
+is_podman () {
+    [[ "$container" == "podman" ]] || [[ -f /run/.containerenv ]]
+}
+
+check_config_permissions () {
+    # Check permissions
     find /.airdcpp -print0 |
     while IFS= read -r -d '' item
     do
@@ -15,7 +18,9 @@ then
             exit 1
         fi
     done
+}
 
+init_config () {
     # If configuration doesn't exist, create defaults
     if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
     then
@@ -24,12 +29,9 @@ then
 
     # Remove unencrypted backup of WebServer.xml (not used anymore)
     rm -f /.airdcpp/WebServer.xml.bak
+}
 
-    # Start airdcppd
-    exec /airdcpp-webclient/airdcppd "$@"
-else
-    # Container is run as root
-
+validate_id () {
     # Check PUID/PGID values
     if [[ -z "${PUID}" || -z "${PGID}" ]]
     then
@@ -42,7 +44,9 @@ else
         echo "If you need to use a lower ID, start container with --user <uid>:<gid> instead."
         exit 1
     fi
+}
 
+create_user_and_group () {
     # Create airdcpp user and group if needed
     if [[ "$(id -u airdcpp &>/dev/null)" != "${PUID}" || "$(id -g airdcpp)" != "${PGID}" ]]
     then
@@ -51,19 +55,28 @@ else
         groupadd -f -g ${PGID} airdcpp || exit 1
         useradd -u ${PUID} -g ${PGID} --no-create-home -s /usr/sbin/nologin airdcpp || exit 1
     fi
+}
 
+take_ownership () {
     # Set ownership of config files and make all files writable
     chown -R ${PUID}:${PGID} /.airdcpp
     chmod -R u+rw /.airdcpp
+}
 
-    # If configuration doesn't exist, create defaults
-    if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
-    then
-        cp /.default-config/* /.airdcpp
-    fi
+if is_podman || [[ "$(id -u)" -ne 0 ]]
+then
+    # Container is run as a normal user or with podman
+    check_config_permissions
+    init_config
 
-    # Remove unencrypted backup of WebServer.xml (not used anymore)
-    rm -f /.airdcpp/WebServer.xml.bak
+    # Start airdcppd
+    exec /airdcpp-webclient/airdcppd "$@"
+else
+    # Container is run as root
+    validate_id
+    create_user_and_group
+    take_ownership
+    init_config
 
     # Start airdcppd
     exec runuser -u airdcpp -g airdcpp -- /airdcpp-webclient/airdcppd "$@"
