@@ -1,12 +1,9 @@
-AirDC++ Web Client Docker image
-===============================
+# AirDC++ Web Client Docker image
 
 Docker image running [AirDC++ Webclient software][airdcpp-github].
 You must have proper knowledge of [Docker] to use this image.
 
-
-Run the application
--------------------
+## Run the application
 
     docker volume create --name airdcpp-volume
     docker run -d --name airdcpp-container \
@@ -19,7 +16,7 @@ Run the application
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
-The web UI will be available on http://localhost and https://localhost.
+The web UI will be available on <http://localhost> and <https://localhost>.
 HTTPS is using self-signed certs, see [Enable HTTPS] for more details.
 
 If you want to access the Web UI on any other port, just update the `-p`
@@ -31,14 +28,13 @@ See [Exposed Ports] for more details.
 > PUID / PGID environment variables are only available using the `latest`
 > tag and versions later than 2.11.0. Older images will *not* be rebuilt.
 
-#### Command Explanation
+### Command Explanation
 
     docker volume create --name airdcpp-volume
 
 This command creates a named volume that will store the application settings.
 
 > Run the `volume create` command only once.
-
 
     docker run -d --name airdcpp-container \
         -p 80:5600 -p 443:5601 \
@@ -52,17 +48,17 @@ This command creates a named volume that will store the application settings.
 
 This command starts a container using the default settings built into the
 image, binding the application to port 80/443 (default http/https ports) so
-it's readily available on http://localhost and https://localhost.
+it's readily available on <http://localhost> and <https://localhost>.
 
-The container is started as root but the application within will be running as
-the user running the docker command. This is necessary to make the files
+The container is started as root but the application within will be running
+as the user running the docker command. This is necessary to make the files
 written by the application to be owned by your local user even outside the
 container.
 
 It will also mount "Downloads" and "Share" from you home directory. Change
 these according to your personal setup.
 
-#### Environment variables
+### Environment variables
 
 If you run the container as root you need to set the following environment
 variables. Example: `-e PUID=1000 -e PGID=1000`.
@@ -82,8 +78,7 @@ All files written by the application will be owned by this user and group.
 > accounts and groups with IDs lower than that. Use `--user` if you need to
 > use IDs lower than 101.
 
-
-#### Run container as non-root
+### Run container as non-root
 
 You can also start the container as a non-root user. This is another way of
 telling the application which user you want it to run as.
@@ -101,19 +96,39 @@ will start as the user that runs the command.
         gangefors/airdcpp-webclient
 
 You can also put in specific IDs if you want to run as a different user than
-the current, for example if you need to use an ID that is lower than the ones
-supported by PUID/PGID (but not 0).
+the current user. E.g. if you need to use an ID that is lower than the ones
+supported by PUID/PGID (but not 0). Make sure that the mounts and the files
+therein are owned and writable by the user, otherwise the container will fail
+to start.
 
+### Run container with Podman
 
-docker-compose
---------------
+> This feature is available since label `2.11.2-podman`.
+> The suffix is only used by v2.11.2.
+
+You can start a container using Podman. Make sure that the mounts and the
+files therein are owned and writable by the user, otherwise the container
+will fail to start.
+
+Podman users should run the container as root (uid=0). I.e. don't add `--user`
+or `PUID/PGID`.
+
+    podman run -d --name airdcpp-container \
+        -p 80:5600 -p 443:5601 \
+        -p 21248:21248 -p 21248:21248/udp -p 21249:21249 \
+        -v airdcpp-volume:/.airdcpp \
+        -v $HOME/Downloads:/Downloads \
+        -v $HOME/Share:/Share \
+        gangefors/airdcpp-webclient
+
+## docker-compose
 
 There is a docker-compose file available to set up the application as a
 service on a docker host. Just run the following.
 
     docker-compose up -d
 
-#### Compose variables
+### Compose variables
 
 You can configure some aspects of the application when using docker-compose
 by setting these environment variables before running `docker-compose up -d`.
@@ -151,9 +166,7 @@ by setting these environment variables before running `docker-compose up -d`.
   Published TLS port for incoming connections. Defaults to 21249.
   If this is changed you have to change it in the application settings as well.
 
-
-Volumes
--------
+## Volumes
 
 - `/.airdcpp`
 
@@ -173,9 +186,7 @@ Volumes
 
   Any bind mounted folder under this will automatically be added to your Share.
 
-
-Exposed Ports
--------------
+## Exposed Ports
 
 - `5600` HTTP port
 
@@ -195,9 +206,7 @@ you to connect to all peers in a hub, including the ones in *passive mode*.
 
 Read more about connectivity modes in the [official FAQ][conn_faq].
 
-
-Add/modify admin users
-----------------------
+## Add/modify admin users
 
 To add/modify _administrative_ users to the web interface, run the following.
 
@@ -211,9 +220,7 @@ To add/modify _administrative_ users to the web interface, run the following.
 command. If you add a user while it's running, the configuration will be
 overwritten when the application shuts down.
 
-
-Upgrade
--------
+## Upgrade
 
 - Pull the latest image.
 - Stop and remove the container.
@@ -234,9 +241,7 @@ Example:
         -v $HOME/Share:/Share \
         gangefors/airdcpp-webclient
 
-
-Enable HTTPS
-------------
+## Enable HTTPS
 
 The image comes with self-signed certificates so you should be able to use
 HTTPS out of the box. But if you want to generate your own certificates here's
@@ -254,11 +259,9 @@ Change the CN string to whatever the domain name or IP you are running your
 service on. You can also add more information in the -subj string if you want.
 Check [this site][certs] for more information on the different fields.
 
+## Troubleshooting
 
-Troubleshooting
----------------
-
-* If you get any permission issues with the config files you can solve this by
+- If you get any permission issues with the config files you can solve this by
   running a temporary container and `chown`ing the files through that.
 
       docker run --rm \
@@ -266,9 +269,7 @@ Troubleshooting
         debian:stable-slim \
         chown -R $(id -u):$(id -g) /.airdcpp
 
-
-Building the Docker image
--------------------------
+## Building the Docker image
 
 > This is not needed since the images are already pushed to Docker hub.
 
@@ -279,15 +280,13 @@ If you want to build your own image run the following command.
 The Dockerfile is set up to fetch the latest version on master branch in the
 [airdcpp-webclient git repo][airdcpp-github].
 
-
-#### Build a different version
+### Build a different version
 
 To build a different version than `latest` supply the build-arg `dl_url`.
-Find the URL for the version you want to build at https://web-builds.airdcpp.net/stable/
+Find the URL for the version you want to build at <https://web-builds.airdcpp.net/stable/>
 
     export dl_url="https://web-builds.airdcpp.net/stable/airdcpp_2.7.0_webui-2.7.0_64-bit_portable.tar.gz"
     docker build --no-cache --pull -t gangefors/airdcpp-webclient:2.7.0 --build-arg dl_url .
-
 
 [.airdcpp]: .airdcpp
 [airdcpp-github]: https://github.com/airdcpp-web/airdcpp-webclient
