@@ -33,11 +33,12 @@ ENV LC_ALL en_US.UTF-8
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen && dpkg-reconfigure -f noninteractive locales
 
-# Create default directories, make them read/write by everyone,
-# and create symlink to configuration directory
+# Create default directories
 RUN mkdir -p /.airdcpp /Downloads /Share \
-        && chmod ugo+rw /.airdcpp /airdcpp-webclient /Downloads /Share \
-        && ln -sf /.airdcpp /airdcpp-webclient/config
+    # Set permission on default directories
+    && chmod a+rwX /.airdcpp /Downloads /Share \
+    # Create symlink to configuration directory
+    && ln -sf /.airdcpp /airdcpp-webclient/config
 
 COPY .airdcpp/ /.default-config
 COPY entrypoint.sh /entrypoint.sh
