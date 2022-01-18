@@ -38,7 +38,10 @@ RUN mkdir -p /.airdcpp /Downloads /Share \
     # Set permission on default directories
     && chmod a+rwX /.airdcpp /Downloads /Share \
     # Create symlink to configuration directory
-    && ln -sf /.airdcpp /airdcpp-webclient/config
+    && ln -sf /.airdcpp /airdcpp-webclient/config \
+    # Fix /favicon.ico 404 request
+    && cd /airdcpp-webclient/web-resources \
+    && ln -sf images/favicon.*.ico favicon.ico
 
 COPY .airdcpp/ /.default-config
 COPY entrypoint.sh /entrypoint.sh
