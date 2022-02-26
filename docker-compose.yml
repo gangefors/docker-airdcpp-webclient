@@ -5,6 +5,7 @@ services:
     image: gangefors/airdcpp-webclient
     volumes:
       - airdcpp:/.airdcpp
+      - logs:/var/log/airdcpp/
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
