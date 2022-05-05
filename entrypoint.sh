@@ -63,6 +63,16 @@ take_ownership () {
     chmod -R u+rw /.airdcpp
 }
 
+if [[ ! -z "$UMASK" ]]
+then
+    if [[ ! "$UMASK" =~ ^0[0-7][0-7][0-7]$ ]]
+    then
+        echo "The umask value $UMASK is not valid. It must be an octal number such as 0022"
+        exit 1
+    fi
+    umask $UMASK
+fi
+
 if is_podman || [[ "$(id -u)" -ne 0 ]]
 then
     # Container is run as a normal user or with podman

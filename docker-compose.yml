@@ -8,6 +8,7 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - UMASK=${UMASK:-0022}
     hostname: airdcpp
     ports:
       - ${HTTP_PORT:-80}:5600

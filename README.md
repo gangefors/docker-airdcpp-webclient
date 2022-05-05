@@ -60,9 +60,10 @@ these according to your personal setup.
 
 ### Environment variables
 
-If you run the container as root you need to set the following environment
-variables. Example: `-e PUID=1000 -e PGID=1000`.
+If you run the container as root you need to set the PUID/PGID variables.
+Example: `-e PUID=1000 -e PGID=1000`.
 All files written by the application will be owned by this user and group.
+Use UMASK to change the permissions of the files.
 
 - `PUID`
 
@@ -77,6 +78,11 @@ All files written by the application will be owned by this user and group.
 > The reason for the >= 101 limitation is that the image already contains
 > accounts and groups with IDs lower than that. Use `--user` if you need to
 > use IDs lower than 101.
+
+- `UMASK`
+
+  Changes how the application writes its files. Defaults to 0022.
+  Read more about umask at <https://man7.org/linux/man-pages/man2/umask.2.html>
 
 ### Run container as non-root
 
@@ -142,6 +148,11 @@ by setting these environment variables before running `docker-compose up -d`.
 
   Application runs as this group id. Defaults to 1000.
   Usually you want this to be your local user's group id. Must be >= 101.
+
+- `UMASK`
+
+  Changes how the application writes its files. Defaults to 0022.
+  Read more about umask at <https://man7.org/linux/man-pages/man2/umask.2.html>
 
 - `HTTP_PORT`
 
