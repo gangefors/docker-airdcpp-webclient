@@ -219,7 +219,7 @@ Read more about connectivity modes in the [official FAQ][conn_faq].
 
 ## Add/modify admin users
 
-To add/modify _administrative_ users to the web interface, run the following.
+To add/modify *administrative* users to the web interface, run the following.
 
     docker stop airdcpp-container
     docker run --rm -it --volumes-from airdcpp-container \
@@ -272,13 +272,39 @@ Check [this site][certs] for more information on the different fields.
 
 ## Troubleshooting
 
-- If you get any permission issues with the config files you can solve this by
-  running a temporary container and `chown`ing the files through that.
+### File permission issues
 
-      docker run --rm \
-        --volumes-from=airdcpp-container \
-        debian:stable-slim \
-        chown -R $(id -u):$(id -g) /.airdcpp
+If you get any permission issues with the config files you can solve this by
+running a temporary container and `chown`ing the files through that.
+
+    docker run --rm \
+      --volumes-from=airdcpp-container \
+      debian:stable-slim \
+      chown -R $(id -u):$(id -g) /.airdcpp
+
+### Enable entrypoint logging
+
+To see what commands are run during startup of the container you can add the
+following environment variable.
+
+- `LOG_STARTUP`
+
+  Enable verbose logging during startup.
+  Defaults to empty string, any value will enable verbose logging.
+
+  `docker run ... -e LOG_STARTUP=1 ...`
+
+### Enable communication debug logs
+
+AirDC++ have some options for enabling communication debug logs. Just add them
+as normal program options after the image name.
+
+    --cdm-hub
+      Print all protocol communication with hubs in the console
+    --cdm-client
+      Print all protocol communication with other clients in the console
+    --cdm-web
+      Print web API commands and file requests in the console
 
 ## Building the Docker image
 

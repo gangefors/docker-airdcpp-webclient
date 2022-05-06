@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 is_podman () {
     [[ "$container" == "podman" ]] || [[ -f /run/.containerenv ]]
@@ -62,6 +61,11 @@ take_ownership () {
     chown -R ${PUID}:${PGID} /.airdcpp
     chmod -R u+rw /.airdcpp
 }
+
+if [[ ! -z "$LOG_STARTUP" ]]
+then
+    set -x
+fi
 
 if [[ ! -z "$UMASK" ]]
 then
