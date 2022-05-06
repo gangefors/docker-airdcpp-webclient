@@ -1,9 +1,5 @@
 #!/bin/bash
 
-is_podman () {
-    [[ "$container" == "podman" ]] || [[ -f /run/.containerenv ]]
-}
-
 check_config_permissions () {
     # Check permissions
     find /.airdcpp -print0 |
@@ -77,7 +73,7 @@ then
     umask $UMASK
 fi
 
-if is_podman || [[ "$(id -u)" -ne 0 ]]
+if [[ "$container" == "podman" ]] || [[ "$(id -u)" -ne 0 ]]
 then
     # Container is run as a normal user or with podman
     check_config_permissions

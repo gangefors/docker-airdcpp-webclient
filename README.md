@@ -282,6 +282,14 @@ running a temporary container and `chown`ing the files through that.
       debian:stable-slim \
       chown -R $(id -u):$(id -g) /.airdcpp
 
+### Container isn't working with Podman
+
+It might happen that the startup script doesn't correctly identify that it
+was podman that started the container. This can be fixed by adding
+`container=podman` environment variable when starting the container.
+
+    podman run ... -e container=podman ...
+
 ### Enable entrypoint logging
 
 To see what commands are run during startup of the container you can add the
