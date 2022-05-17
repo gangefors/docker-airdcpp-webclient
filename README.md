@@ -82,7 +82,7 @@ Use UMASK to change the permissions of the files.
 - `UMASK`
 
   Changes how the application writes its files. Defaults to 0022.
-  Read more about umask at <https://man7.org/linux/man-pages/man2/umask.2.html>
+  Read more on the [umask man page][umask].
 
 ### Run container as non-root
 
@@ -152,7 +152,7 @@ by setting these environment variables before running `docker-compose up -d`.
 - `UMASK`
 
   Changes how the application writes its files. Defaults to 0022.
-  Read more about umask at <https://man7.org/linux/man-pages/man2/umask.2.html>
+  Read more on the [umask man page][umask].
 
 - `HTTP_PORT`
 
@@ -341,3 +341,4 @@ Find the URL for the version you want to build at <https://web-builds.airdcpp.ne
 [docker]: https://docs.docker.com/learn/
 [Exposed Ports]: #exposed-ports
 [Enable HTTPS]: #enable-https
+[umask]: https://man7.org/linux/man-pages/man2/umask.2.html
