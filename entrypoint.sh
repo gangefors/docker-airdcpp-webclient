@@ -65,7 +65,7 @@ fi
 
 if [[ ! -z "$UMASK" ]]
 then
-    if [[ ! "$UMASK" =~ ^0[0-7][0-7][0-7]$ ]]
+    if [[ ! "$UMASK" =~ ^0?[0-7]{1,3}$ ]]
     then
         echo "The umask value $UMASK is not valid. It must be an octal number such as 0022"
         exit 1
