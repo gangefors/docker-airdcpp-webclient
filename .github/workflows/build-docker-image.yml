@@ -15,11 +15,11 @@ jobs:
       -
         name: Does latest release exist as docker image
         run: |
-          tags_found=$(curl -sL "https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated" | jq '.results[].name' | grep -c "${env.release_tag}")
+          tags_found=$(curl -sL "https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated" | jq '.results[].name' | grep -c "${{env.release_tag}}")
           echo "num_rels_found=${tags_found}" >> $GITHUB_ENV
       -
         run: |
-          echo "Version: ${env.release_tag} Existing tags: ${env.num_rels_found}"
+          echo "Version: ${{env.release_tag}} Existing tags: ${{env.num_rels_found}}"
       -
         if: ${{ env.num_rels_found == 0 }}
         name: Checkout
