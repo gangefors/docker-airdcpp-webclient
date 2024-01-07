@@ -219,7 +219,8 @@ Read more about connectivity modes in the [official FAQ][conn_faq].
 
 ## Add/modify admin users
 
-To add/modify *administrative* users to the web interface, run the following.
+To add/modify *administrative* users, run the following commands. Admin users
+can then add normal users in the web UI under Settings > System > Users.
 
     docker stop airdcpp-container
     docker run --rm -it --volumes-from airdcpp-container \
@@ -227,9 +228,9 @@ To add/modify *administrative* users to the web interface, run the following.
         gangefors/airdcpp-webclient --add-user
     docker start airdcpp-container
 
-> You must stop the webclient application container before running this
-command. If you add a user while it's running, the configuration will be
-overwritten when the application shuts down.
+> You must stop the webclient application container before running the
+> `--add-user` command. If you add a user while it's running, the
+> configuration will be overwritten when the application shuts down.
 
 ## Upgrade
 
