@@ -154,6 +154,14 @@ by setting these environment variables before running `docker-compose up -d`.
   Changes how the application writes its files. Defaults to 0022.
   Read more on the [umask man page][umask].
 
+- `DL_DIR`
+
+  Host path mounted to `/Downloads` in the container. Defaults to `$HOME/Downloads`.
+
+- `SHARE_DIR`
+
+  Host path mounted to `/Share` in the container. Defaults to `$HOME/Share`.
+
 - `HTTP_PORT`
 
   Published HTTP port. Defaults to 80.

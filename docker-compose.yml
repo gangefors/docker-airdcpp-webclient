@@ -1,10 +1,11 @@
 ---
-version: '2.1'
 services:
   airdcpp:
     image: gangefors/airdcpp-webclient
     volumes:
       - airdcpp:/.airdcpp
+      - "${DL_DIR:-$HOME/Downloads}:/Downloads"
+      - "${SHARE_DIR:-$HOME/Share}:/Share"
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
