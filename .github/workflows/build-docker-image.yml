@@ -54,7 +54,7 @@ jobs:
             gangefors/airdcpp-webclient:latest
             gangefors/airdcpp-webclient:${{ env.stable_tag }}
       -
-        if: ${{ env.num_dev_rels_found == 0 }}
+        if: ${{ env.num_dev_rels_found == 0 && env.dev_tag != env.stable_tag }}
         name: Build and push develop
         id: docker_build_dev
         uses: docker/build-push-action@v3
