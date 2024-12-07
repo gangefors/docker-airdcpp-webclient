@@ -25,8 +25,10 @@ jobs:
           echo "num_dev_rels_found=$(curl -fsL 'https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated' | jq -r '.results[].name' | grep -c '^${{env.dev_tag}}$')" >> $GITHUB_ENV
       -
         run: |
-          echo "Stable Version: ${{env.release_tag}} Existing tags: ${{env.num_rels_found}}"
-          echo "Develop Version: ${{env.dev_tag}} Existing tags: ${{env.num_dev_rels_found}}"
+          echo "stable_dl_url=https://web-builds.airdcpp.net/stable/$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
+          echo "Stable Version: ${{env.release_tag}} Existing tags: ${{env.num_rels_found}} DlUrl: ${{env.stable_dl_url}}"
+          echo "dev_dl_url=https://web-builds.airdcpp.net/develop/$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
+          echo "Develop Version: ${{env.dev_tag}} Existing tags: ${{env.num_dev_rels_found}} DlUrl: ${{env.dev_dl_url}}"
       -
         if: ${{ env.num_rels_found == 0 || env.num_dev_rels_found == 0 }}
         name: Checkout
@@ -49,6 +51,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-arg: |
+            dl_url=${{env.stable_dl_url}}
           no-cache: true
           push: true
           tags: |
@@ -61,6 +65,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-arg: |
+            dl_url=${{env.dev_dl_url}}
           no-cache: true
           push: true
           tags: |
