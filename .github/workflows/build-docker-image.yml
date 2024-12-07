@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          build-arg: |
+          build-args: |
             dl_url=${{env.stable_dl_url}}
           no-cache: true
           push: true
@@ -60,7 +60,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          build-arg: |
+          build-args: |
             dl_url=${{env.dev_dl_url}}
           no-cache: true
           push: true
