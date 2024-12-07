@@ -8,26 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Get latest stable airdcpp release
+        name: Get latest airdcpp releases
         run: |
-          echo "release_tag=$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | cut -d "_" -f 2)" >> $GITHUB_ENV
+          echo "stable_tag=$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | cut -d "_" -f 2)" >> $GITHUB_ENV
           echo "stable_dl_url=https://web-builds.airdcpp.net/stable/$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
-      -
-        name: Does latest stable release exist as docker image
-        run: |
-          echo "num_rels_found=$(curl -fsL 'https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated' | jq -r '.results[].name' | grep -c '^${{env.release_tag}}$')" >> $GITHUB_ENV
-      -
-        name: Get latest develop airdcpp release
-        run: |
           echo "dev_tag=$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | cut -d "_" -f 2)" >> $GITHUB_ENV
           echo "dev_dl_url=https://web-builds.airdcpp.net/develop/$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
       -
-        name: Does latest develop release exist as docker image
+        name: Does the release exist as docker image
         run: |
+          echo "num_rels_found=$(curl -fsL 'https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated' | jq -r '.results[].name' | grep -c '^${{env.stable_tag}}$')" >> $GITHUB_ENV
           echo "num_dev_rels_found=$(curl -fsL 'https://hub.docker.com/v2/repositories/gangefors/airdcpp-webclient/tags/?page_size=10&ordering=last_updated' | jq -r '.results[].name' | grep -c '^${{env.dev_tag}}$')" >> $GITHUB_ENV
       -
+        name: Details
         run: |
-          echo "Stable Version: ${{env.release_tag}} Existing tags: ${{env.num_rels_found}} DlUrl: ${{env.stable_dl_url}}"
+          echo "Stable Version: ${{env.stable_tag}} Existing tags: ${{env.num_rels_found}} DlUrl: ${{env.stable_dl_url}}"
           echo "Develop Version: ${{env.dev_tag}} Existing tags: ${{env.num_dev_rels_found}} DlUrl: ${{env.dev_dl_url}}"
       -
         if: ${{ env.num_rels_found == 0 || env.num_dev_rels_found == 0 }}
@@ -57,7 +52,7 @@ jobs:
           push: true
           tags: |
             gangefors/airdcpp-webclient:latest
-            gangefors/airdcpp-webclient:${{ env.release_tag }}
+            gangefors/airdcpp-webclient:${{ env.stable_tag }}
       -
         if: ${{ env.num_dev_rels_found == 0 }}
         name: Build and push develop
