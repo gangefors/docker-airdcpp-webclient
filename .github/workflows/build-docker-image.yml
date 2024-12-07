@@ -11,9 +11,9 @@ jobs:
         name: Get latest airdcpp releases
         run: |
           echo "stable_tag=$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | cut -d "_" -f 2)" >> $GITHUB_ENV
-          echo "stable_dl_url=https://web-builds.airdcpp.net/stable/$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
+          echo "stable_dl_url=https://web-builds.airdcpp.net/stable/$(curl -fsL https://web-builds.airdcpp.net/stable/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k2.1V | tail -n1 | sed -nr 's/.*href="([^"]+)".*/\1/p')" >> $GITHUB_ENV
           echo "dev_tag=$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | cut -d "_" -f 2)" >> $GITHUB_ENV
-          echo "dev_dl_url=https://web-builds.airdcpp.net/develop/$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t "_" -k1.14rV | head -n1 | sed -nr 's/.*>(.+)<.*/\1/p')" >> $GITHUB_ENV
+          echo "dev_dl_url=https://web-builds.airdcpp.net/develop/$(curl -fsL https://web-builds.airdcpp.net/develop/ | grep "_64-bit_portable.tar.gz" | grep -v latest | sort -t  '>' -k 3.9,3.12 -k 3.5,3.7M -k 3.2,3.3n | tail -n1 | sed -nr 's/.*href="([^"]+).*/\1/p')" >> $GITHUB_ENV
       -
         name: Does the release exist as docker image
         run: |
