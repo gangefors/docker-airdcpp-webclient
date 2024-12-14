@@ -17,7 +17,7 @@ RUN installDeps=' \
     && apt-get update \
     && apt-get install -y --no-install-recommends ${installDeps} ${runtimeDeps} \
 # Install node.js to enable airdcpp extension support
-    && curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
 # Download and install airdcpp
     && echo "Downloading ${dl_url}..." \
