@@ -142,12 +142,12 @@ by setting these environment variables before running `docker-compose up -d`.
 - `PUID`
 
   Application runs as this user id. Defaults to 1000.
-  Usually you want this to be your local user id. Must be >= 101.
+  Usually you want this to be your local user id. **Must be >= 101.**
 
 - `PGID`
 
   Application runs as this group id. Defaults to 1000.
-  Usually you want this to be your local user's group id. Must be >= 101.
+  Usually you want this to be your local user's group id. **Must be >= 101.**
 
 - `UMASK`
 
