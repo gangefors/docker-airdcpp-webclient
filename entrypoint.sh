@@ -17,13 +17,9 @@ check_config_permissions () {
 
 init_config () {
     # If configuration doesn't exist, create defaults
-    if [[ ! -r /.airdcpp/DCPlusPlus.xml ]]
-    then
-        cp /.default-config/* /.airdcpp
-    fi
-
-    # Remove unencrypted backup of WebServer.xml (not used anymore)
-    rm -f /.airdcpp/WebServer.xml.bak
+    [[ -r /.airdcpp/DCPlusPlus.xml ]] || cp /.default-config/DCPlusPlus.xml /.airdcpp/
+    [[ -r /.airdcpp/web-server.json ]] || cp /.default-config/web-server.json /.airdcpp/
+    [[ -r /.airdcpp/web-users.json ]] || cp /.default-config/web-users.json /.airdcpp/
 }
 
 validate_id () {
