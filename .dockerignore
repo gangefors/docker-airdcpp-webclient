@@ -1,6 +1,5 @@
 # Ignore everything
 *
 # Allow this
-!.airdcpp/DCPlusPlus.xml
-!.airdcpp/WebServer.xml
+!.airdcpp/*
 !entrypoint.sh
