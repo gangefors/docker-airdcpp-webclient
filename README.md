@@ -192,7 +192,7 @@ by setting these environment variables before running `docker-compose up -d`.
   This volume stores the application settings.
 
   On launch it will be populated with default settings unless the folder
-  already contains the DCPlusPlus.xml configuration file.
+  already contains configuration files.
 
 - `/Downloads`
 
